@@ -1,0 +1,15 @@
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:title="Email Address"
+        app:summary="example@gmail.com"/>
+
+    <Preference
+        app:title="Update Password"
+        app:fragment="com.example.sit_bit.PasswordUpdateFragment"/>
+
+    <Preference
+        app:title="Delete Account"
+        app:fragment="com.example.sit_bit.DeleteAccountFragment"/>
+
+</androidx.preference.PreferenceScreen>
