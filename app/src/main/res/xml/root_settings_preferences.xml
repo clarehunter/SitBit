@@ -1,0 +1,18 @@
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:title="Account Settings"
+        app:fragment="com.example.sit_bit.AccountSettingsFragment"/>
+
+    <Preference
+        app:title="Health Information"
+        app:fragment="com.example.sit_bit.HealthSettingsFragment"/>
+
+    <Preference
+        app:title="Notification Settings"
+        app:fragment="com.example.sit_bit.NotificationSettingsFragment"/>
+
+    <Preference
+        app:title="Log Out" />
+
+</androidx.preference.PreferenceScreen>
