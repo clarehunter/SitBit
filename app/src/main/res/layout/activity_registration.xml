@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/loginscrn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Registration"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-    <TextView
-        android:id="@+id/fstTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
-        android:text="Full Name"/>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationActivity">
+
     <EditText
-        android:id="@+id/txtName"
+        android:id="@+id/REG_name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:ems="10"/>
-    <TextView
-        android:id="@+id/secTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/REG_name_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/REG_title" />
+
     <EditText
-        android:id="@+id/txtEmail"
+        android:id="@+id/REG_email_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:ems="10" />
-    <TextView
-        android:id="@+id/thirdTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/REG_email_hint"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/REG_name_field" />
+
     <EditText
-        android:id="@+id/txtPwd"
+        android:id="@+id/REG_pass_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/REG_password_hint"
         android:inputType="textPassword"
-        android:ems="10" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/REG_email_field" />
+
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/REG_register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:text="Login" />
-    <TextView android:id="@+id/lnkLogin"
-        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:text="@string/REG_register_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/REG_pass_field" />
+
+    <TextView
+        android:id="@+id/REG_login_field"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Already Registered? Login here"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:textColor="#3F51B5"
-        android:onClick="test"/>
-</LinearLayout>
+        android:layout_marginBottom="32dp"
+        android:text="@string/REG_login_field_text"
+        android:textColor="@color/REG_login_field_color"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/REG_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/REG_title"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

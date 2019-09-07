@@ -3,4 +3,18 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--Login Activity Colors-->
+
+    <color name="LOGIN_register_field_color">#008577</color>
+
+
+    <!--Register Activity Colors-->
+
+    <color name="REG_login_field_color">#008577</color>
+
+    <!--Home Fragment Colors-->
+
+    <color name="HOME_recording_button_color">#10C566</color>
+
 </resources>

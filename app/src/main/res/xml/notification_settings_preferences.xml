@@ -1,6 +1,0 @@
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <SwitchPreferenceCompat
-        app:title="Enable Notifications" />
-
-</androidx.preference.PreferenceScreen>
