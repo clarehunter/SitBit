@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 public class SettingsMainFragment extends Fragment {
 
+    Globals globals;
 
     public SettingsMainFragment() {
-
+        System.out.println("SETTINGS FRAGMENT CREATED");
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class SettingsMainFragment extends Fragment {
                 // LOGOUT
             }
         });
+
+        System.out.println("SETTINGS FRAGMENT CREATED");
 
         return view;
     }

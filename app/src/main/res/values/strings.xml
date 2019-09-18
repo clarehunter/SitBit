@@ -8,6 +8,7 @@
     <string name="LOGIN_password_hint">Password</string>
     <string name="LOGIN_login_button_text">Login</string>
     <string name="LOGIN_register_field_text">New to SitBit? Register Here!</string>
+    <string name="LOGIN_login_failed_toast">Invalid Login Credentials</string>
 
     <!--Register Activity Strings-->
 
@@ -17,6 +18,7 @@
     <string name="REG_password_hint">Password</string>
     <string name="REG_register_button_text">Register</string>
     <string name="REG_login_field_text">Already Registered? Login Here!</string>
+    <string name="REG_reg_failed_toast">Invalid Registration Credentials</string>
 
     <!--Home Fragment Strings -->
 
