@@ -21,8 +21,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText passField;
 
-    private Globals globals;
-
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -34,9 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.LOGIN_email_field);
         passField = (EditText) findViewById(R.id.LOGIN_pass_field);
 
-        globals = (Globals) getApplication();
-
-        firebaseAuth = globals.getFirebaseAuth();
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null)
@@ -54,12 +50,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         toHomeScreen();
                     } else {
-                        Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT);
+                        Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         } else {
-            Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT);
+            Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -69,11 +65,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void toHomeScreen() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void toRegisterScreen() {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+        finish();
         startActivity(intent);
     }
 }

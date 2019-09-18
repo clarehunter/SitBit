@@ -1,5 +1,6 @@
 package com.example.sitbit;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,14 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SettingsMainFragment extends Fragment {
 
-    Globals globals;
+    private FirebaseAuth firebaseAuth;
 
     public SettingsMainFragment() {
-        System.out.println("SETTINGS FRAGMENT CREATED");
+        firebaseAuth = FirebaseAuth.getInstance();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,11 +49,12 @@ public class SettingsMainFragment extends Fragment {
         ((TextView) view.findViewById(R.id.SETTINGS_MAIN_logout_field)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // LOGOUT
+                firebaseAuth.signOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                getActivity().finish();
+                startActivity(intent);
             }
         });
-
-        System.out.println("SETTINGS FRAGMENT CREATED");
 
         return view;
     }

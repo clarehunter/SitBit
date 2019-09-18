@@ -21,8 +21,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText passField;
 
-    private Globals globals;
-
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -35,13 +33,16 @@ public class RegistrationActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.REG_email_field);
         passField = (EditText) findViewById(R.id.REG_pass_field);
 
-        globals = (Globals) getApplication();
-
-        firebaseAuth = globals.getFirebaseAuth();
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null)       // this should obviously never happen
             firebaseAuth.signOut();     // ... hopefully?
+    }
+
+    @Override
+    public void onBackPressed() {
+        toLoginScreen();
     }
 
     public void onRegisterClick(View view) {
@@ -56,12 +57,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         toHomeScreen();
                     } else {
-                        Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT);
+                        Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         } else {
-            Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT);
+            Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -71,11 +72,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void toHomeScreen() {
         Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void toLoginScreen() {
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        finish();
         startActivity(intent);
     }
 }
