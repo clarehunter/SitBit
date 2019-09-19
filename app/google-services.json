@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "711121951397",
+    "firebase_url": "https://sitbit-e3673.firebaseio.com",
+    "project_id": "sitbit-e3673",
+    "storage_bucket": "sitbit-e3673.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711121951397:android:a4c3a995ecd1117b310b4c",
+        "android_client_info": {
+          "package_name": "com.example.sitbit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711121951397-hg2dj25vgcfcufjvguid74molhje6md1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuTt3cfX610xFcNCd-T97oKYnEmNkoGWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711121951397-hg2dj25vgcfcufjvguid74molhje6md1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

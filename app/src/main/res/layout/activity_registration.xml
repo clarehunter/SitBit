@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/REG_register_button_text"
+        android:onClick="onRegisterClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/REG_pass_field" />
@@ -60,6 +61,7 @@
         android:text="@string/REG_login_field_text"
         android:textColor="@color/REG_login_field_color"
         android:textSize="24sp"
+        android:onClick="onLoginClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
