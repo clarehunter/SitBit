@@ -40,23 +40,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginClick(View view) {
-        String email = emailField.getText().toString();
-        String pass = passField.getText().toString();
+        String email = emailField.getText().toString().trim();
+        String pass = passField.getText().toString().trim();
 
-        if (email.trim().length() > 0 && pass.trim().length() > 0) {
-            firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        if (email.length() == 0 || pass.length() == 0) {
+            Toast.makeText(LoginActivity.this, R.string.LOGIN_empty_field_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         toHomeScreen();
                     } else {
-                        Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-            });
-        } else {
-            Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     public void onRegisterClick(View view) {

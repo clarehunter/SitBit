@@ -46,24 +46,25 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void onRegisterClick(View view) {
-        String name = nameField.getText().toString();
-        String email = emailField.getText().toString();
-        String pass = passField.getText().toString();
+        String name = nameField.getText().toString().trim();
+        String email = emailField.getText().toString().trim();
+        String pass = passField.getText().toString().trim();
 
-        if (name.trim().length() > 0 && email.trim().length() > 0 && pass.trim().length() > 0) {
-            firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        if (name.length() == 0 || email.length() == 0 || pass.length() == 0) {
+            Toast.makeText(RegistrationActivity.this, R.string.REG_empty_field_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         toHomeScreen();
                     } else {
-                        Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        } else {
-            Toast.makeText(RegistrationActivity.this, R.string.REG_reg_failed_toast, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void onLoginClick(View view) {
