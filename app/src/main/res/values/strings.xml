@@ -57,6 +57,7 @@
     <string name="DELACC_password_hint1">Password</string>
     <string name="DELACC_password_hint2">Confirm Password</string>
     <string name="DELACC_delete_button_text">Delete Account</string>
+    <string name="DELACC_diff_pass_toast">Passwords did not match!</string>
 
     <!-- Update Password Fragment Strings -->
 

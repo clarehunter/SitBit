@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         toHomeScreen();
                     } else {
-                        Toast.makeText(LoginActivity.this, R.string.LOGIN_login_failed_toast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
