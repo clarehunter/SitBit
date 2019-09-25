@@ -66,5 +66,8 @@
     <string name="UPPASS_old_password_hint2">Confirm Password</string>
     <string name="UPPASS_new_password_hint">New Password</string>
     <string name="UPPASS_update_button_text">Update Password</string>
+    <string name="UPPASS_pass_updated_toast">Password updated!</string>
+    <string name="UPPASS_emtpy_pass_toast">Password(s) empty!</string>
+    <string name="UPPASS_diff_pass_toast">Passwords did not match!</string>
 
 </resources>
