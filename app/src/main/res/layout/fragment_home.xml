@@ -10,26 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/bar_graph"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_marginTop="128dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="144dp"
             android:background="@color/HOME_recording_button_color"
             android:padding="15dp"
             android:text="@string/HOME_recording_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/HOME_temp_img" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/HOME_temp_img"
-            android:layout_width="350dp"
-            android:layout_height="456dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/home_graph" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
