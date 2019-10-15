@@ -15,6 +15,7 @@
 
     <!--Home Fragment Colors-->
 
-    <color name="HOME_recording_button_color">#10C566</color>
+    <color name="HOME_recording_button_disabled_color">#10C566</color>
+    <color name="HOME_recording_button_enabled_color">#FF0000</color>
 
 </resources>

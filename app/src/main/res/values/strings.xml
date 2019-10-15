@@ -22,7 +22,8 @@
 
     <!--Home Fragment Strings -->
 
-    <string name="HOME_recording_button_text">Start Recording</string>
+    <string name="HOME_recording_button_disabled_text">Start Recording</string>
+    <string name="HOME_recording_button_enabled_text">Stop Recording</string>
 
     <!--Export Fragment Strings -->
 
