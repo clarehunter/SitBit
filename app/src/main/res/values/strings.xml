@@ -22,7 +22,14 @@
 
     <!--Home Fragment Strings -->
 
+    <string name="HOME_today_graph_title">Today</string>
+    <string name="HOME_week_graph_title">This Week</string>
     <string name="HOME_recording_button_text">Start Recording</string>
+    <string name="HOME_12am_text">12 AM</string>
+    <string name="HOME_12pm_text">12 PM</string>
+    <string name="HOME_6am_text">6 AM</string>
+    <string name="HOME_6pm_text">6 PM</string>
+    <string name="HOME_graph_legend"><![CDATA[ <p><font color=#800000>Sedentary</font> | <font color=#00574B>Active</font></p> ]]></string>
 
     <!--Export Fragment Strings -->
 
