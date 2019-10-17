@@ -25,6 +25,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
     public static final int RECORDING_DELAY = 50000; // in microseconds; 50000 = 20 Hz
     public static final int BUFFER_SIZE = 20;
+    public static final double THRESHOLD = 1.25;
+    public static final int HISTORY_SIZE = 8;
 
     private SensorManager sensorManager;
     private Sensor linearAccelSensor;
@@ -34,6 +36,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private boolean recording = false;
 
     private ArrayList<double[]> buffer;
+
+    private int history;
 
     private File file;
     private BufferedWriter writer;
@@ -59,6 +63,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         });
 
         buffer = new ArrayList<>(BUFFER_SIZE);
+
+        history = HISTORY_SIZE / 2;
 
         file = new File(getContext().getFilesDir(), "SedentaryData");
 
@@ -127,8 +133,14 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                     }
                 }
 
+                if (max > THRESHOLD && history < HISTORY_SIZE - 1)
+                    history++;
+
+                if (max <= THRESHOLD && history > 0)
+                    history--;
+
                 try {
-                    writer.write((max > 3 ? "active" : "sedentary") + "," + time + "\n");
+                    writer.write((history < HISTORY_SIZE / 2 ? "sedentary" : "active") + "," + time + "\n");
                     writer.flush();
                 } catch (IOException e) {
                     System.out.println("Failed to append to SedentaryData!");
