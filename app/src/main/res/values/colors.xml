@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-
     <!--Login Activity Colors-->
 
     <color name="LOGIN_register_field_color">#008577</color>
@@ -14,9 +13,11 @@
 
     <color name="REG_login_field_color">#008577</color>
 
-
+    <!--Home Fragment Colors-->
+    <color name="HOME_recording_button_disabled_color">#00574B</color>
+    <color name="HOME_recording_button_enabled_color">#800000</color>
+  
     <!--Generic Colors-->
-
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>
@@ -33,6 +34,5 @@
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
-
 
 </resources>

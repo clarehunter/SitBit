@@ -158,15 +158,15 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/HOME_record_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="36dp"
-            android:background="@color/colorPrimaryDark"
-            android:padding="15dp"
-            android:text="@string/HOME_recording_button_text"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/HOME_recording_button_disabled_color"
+            android:padding="15dp"
+            android:text="@string/HOME_recording_button_disabled_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
