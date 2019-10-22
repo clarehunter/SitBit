@@ -1,9 +1,15 @@
 package com.example.sitbit;
 
-
-import android.graphics.Color;
-
 import android.content.Context;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import android.widget.Button;
+import android.widget.TextView;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,33 +18,24 @@ import android.hardware.SensorManager;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
 import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
-import android.widget.Toast;
+import android.graphics.Color;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
-import android.widget.Button;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements SensorEventListener {
 
@@ -47,70 +44,106 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     public static final double THRESHOLD = 1.25;
     public static final int HISTORY_SIZE = 8;
 
+    public static final int SECS_PER_BAR = 360;
+    public static final int N_BARS = 86400 / SECS_PER_BAR;
+
     private SensorManager sensorManager;
     private Sensor linearAccelSensor;
 
-    private Button recordButton;
-
-    private boolean recording = false;
-
-    private ArrayList<double[]> buffer;
-
-    private int history;
-
-    private File file;
-    private BufferedWriter writer;
-    
-    private ArrayList<String[]> data;
-    private View rootView;
     private GraphView graph;
     private TextView graphLegend1;
     private TextView graphLegend2;
+    private Button recordButton;
 
-    private int minPerBar = 2;  // each bar is one piece of data from each n minute chunk
-    private int modNum;  // the number to % by to get a datum for every n minute chunk
-    private int numBars;  // the number of bars on the graph
+    private BufferedWriter writer;
+
+    private ArrayList<double[]> buffer;
+    private int history;
+    
+    private HashMap<Integer, Boolean> data;
+
+    private boolean recording = false;
+
+    private Globals globals;
 
     public HomeFragment() {
-        data = new ArrayList<>();
+
     }
 
-    private void readCSVData() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // sensor init
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        linearAccelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
+        // graphical artifact init
+        graph = (GraphView) view.findViewById(R.id.bar_graph);
+        graphLegend1 = (TextView) view.findViewById(R.id.todayGraphLegend);
+        graphLegend2 = (TextView) view.findViewById(R.id.weekGraphLegend);
+        recordButton = (Button) view.findViewById(R.id.HOME_record_button);
+
+        graphLegend1.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
+        graphLegend2.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
+
+        globals = Globals.getInstance();
+
         try {
-            // TODO: change where file is read from
-            InputStreamReader is = new InputStreamReader(getContext().getAssets().open("sedentary.csv"));
-            BufferedReader reader = new BufferedReader(is);
-            String line = reader.readLine();
-            do {
-                String[] entry = line.split(",");
-                // TODO: deal with time stamps
-                // filter data to one entry 5 minutes
-                modNum = minPerBar * 60;
-                if (Integer.parseInt(entry[1]) % modNum == 0) {
-                    data.add(entry);
-                }
-            } while ((line = reader.readLine()) != null);
-            System.out.println(data.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "Error reading sedentary data file", Toast.LENGTH_SHORT).show();
-        }
+            writer = new BufferedWriter(new FileWriter(globals.getSedentaryDataFile(), true));
+        } catch (IOException e) {}
+
+        // sensor buffer init
+        buffer = new ArrayList<>(BUFFER_SIZE);
+
+        // history init
+        history = HISTORY_SIZE / 2;
+
+        getGraphData();
+        createGraph();
+
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleRecording();
+            }
+        });
+
+        return view;
+    }
+
+    private void getGraphData() {
+        data = new HashMap<>();
+
+        try (Scanner reader = new Scanner(globals.getSedentaryDataFile())){
+            while (reader.hasNextLine()) {
+
+                String[] tokens = reader.nextLine().split(",");
+
+                Date date = new Date(Long.parseLong(tokens[1]));
+
+                int second = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+                boolean isActive = tokens[0].equals("active");
+
+                data.put(second, isActive);
+            }
+        } catch (Exception e) {}
     }
 
     private void createGraph() {
-        numBars = (int) (86400 / modNum);
-        DataPoint[] points = new DataPoint[numBars];
-        // add data already captured
-        for (int i = 0; i < data.size(); i++) {
-            // TODO: add something to deal with missing/no data
-            points[i] = new DataPoint(i, 1);
+
+        DataPoint[] points = new DataPoint[N_BARS];
+
+        for (int i = 0; i < N_BARS; i++) {
+
+            boolean dataPresent = false;
+
+            for (int j = 0; j < SECS_PER_BAR; j++)
+                dataPresent |= data.containsKey(i * SECS_PER_BAR + j);
+
+            points[i] = new DataPoint(i, dataPresent ? 1 : 0);
         }
-        System.out.println(data.size());
-        // add blank points for rest of day
-        for (int i = data.size(); i < numBars; i++) {
-            points[i] = new DataPoint(i, 0);
-            System.out.println(i);
-        }
+
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
         graph.addSeries(series);
 
@@ -127,74 +160,39 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         // set manual X bounds
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(numBars);
+        graph.getViewport().setMaxX(N_BARS);
 
         // styling
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint point) {
-                // sedentary or active
-                String classification = data.get((int) point.getX())[0];
-                if (classification.equals("sedentary")) {
-                    return Color.RED;
-                } else if (classification.equals("active")){
-                    return getResources().getColor(R.color.colorPrimary);
-                } else {
-                    return Color.WHITE;
+
+                int nSed = 0;
+                int nAct = 0;
+
+                for (int i = 0; i < SECS_PER_BAR; i++) {
+
+                    Boolean isSedentary = data.get(((int) point.getX()) * SECS_PER_BAR + i);
+
+                    if (isSedentary != null)
+                        if (isSedentary)
+                            nSed++;
+                        else
+                            nAct++;
                 }
+
+                if (nSed > nAct)
+                    return Color.RED;
+                else if (nSed < nAct)
+                    return getResources().getColor(R.color.colorPrimary);
+                else
+                    return Color.WHITE;
             }
         });
 
         series.setSpacing(0);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-      
-        graph = (GraphView) view.findViewById(R.id.bar_graph);
-        graphLegend1 = (TextView) view.findViewById(R.id.todayGraphLegend);
-        graphLegend1.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
-        graphLegend2 = (TextView) view.findViewById(R.id.weekGraphLegend);
-        graphLegend2.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
-        
-        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        linearAccelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-
-        recordButton = (Button) view.findViewById(R.id.HOME_record_button);
-
-        recordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleRecording();
-            }
-        });
-
-        buffer = new ArrayList<>(BUFFER_SIZE);
-
-        history = HISTORY_SIZE / 2;
-
-        file = new File(getContext().getFilesDir(), "SedentaryData");
-
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Couldn't create a new file for SedentaryData!");
-            }
-        }
-
-        try {
-            writer = new BufferedWriter(new FileWriter(file, true));
-        } catch (IOException e) {
-            System.out.println("Couldn't create the writer for SedentaryData!");
-        }
-      
-        readCSVData();
-        createGraph();
-
-        return view;
-    }
 
 
     private void toggleRecording() {

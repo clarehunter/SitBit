@@ -12,6 +12,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
 
     private NavController navController;
+
+    private Globals globals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(navigationView, navController);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        globals = Globals.getInstance();
+
+        globals.setFirebaseDatabase(FirebaseDatabase.getInstance());
+
+        File sedentaryDataFile = new File(getFilesDir(), "SedentaryData");
+
+        try {
+            sedentaryDataFile.createNewFile();
+        } catch (IOException e) {}
+
+        globals.setSedentaryDataFile(sedentaryDataFile);
     }
 
     @Override

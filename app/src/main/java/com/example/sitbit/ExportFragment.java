@@ -1,27 +1,17 @@
 package com.example.sitbit;
 
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
@@ -31,6 +21,8 @@ public class ExportFragment extends Fragment {
     public static final int WRITE_CODE = 420;
 
     private Button exportButton;
+
+    private Globals globals;
 
     public ExportFragment() {}
 
@@ -46,11 +38,13 @@ public class ExportFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("application/pdf");
+                intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TITLE, "SedentaryData_" + System.currentTimeMillis());
                 startActivityForResult(intent, WRITE_CODE);
             }
         });
+
+        globals = Globals.getInstance();
 
         return view;
     }
@@ -60,18 +54,18 @@ public class ExportFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ExportFragment.WRITE_CODE && resultCode == Activity.RESULT_OK) {
-            File file = new File(getContext().getFilesDir(), "SedentaryData");
 
-            try {
-                file.createNewFile();
-                Scanner scanner = new Scanner(file);
+            try (Scanner reader = new Scanner(globals.getSedentaryDataFile())){
 
                 OutputStream outputStream = getActivity().getContentResolver().openOutputStream(data.getData());
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-                writer.write("HELLO LEIGHANN");
+                // write from firebase?
 
-                scanner.close();
+                // temp local export
+                while (reader.hasNextLine())
+                    writer.write(reader.nextLine() + "\n");
+
                 writer.close();
             } catch (Exception e) {}
         }

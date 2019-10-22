@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -21,8 +19,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText passField;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
+    private Globals globals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +30,10 @@ public class RegistrationActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.REG_email_field);
         passField = (EditText) findViewById(R.id.REG_pass_field);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        globals = Globals.getInstance();
 
-        if (firebaseUser != null)       // this should obviously never happen
-            firebaseAuth.signOut();     // ... hopefully?
+        if (globals.getFirebaseAuth().getCurrentUser() != null)     // this should obviously never happen
+            globals.getFirebaseAuth().signOut();                    // ... hopefully?
     }
 
     @Override
@@ -55,7 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        globals.getFirebaseAuth().createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
