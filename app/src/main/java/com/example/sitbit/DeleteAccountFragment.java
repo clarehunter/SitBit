@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,13 +27,10 @@ public class DeleteAccountFragment extends Fragment {
     private TextView passField2;
     private Button deleteButton;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
+    private Globals globals;
 
-    public DeleteAccountFragment() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-    }
+
+    public DeleteAccountFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +40,8 @@ public class DeleteAccountFragment extends Fragment {
         passField2 = (TextView) view.findViewById(R.id.DELACC_password_field2);
 
         deleteButton = (Button) view.findViewById((R.id.DELACC_delete_button));
+
+        globals = Globals.getInstance();
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,35 +55,20 @@ public class DeleteAccountFragment extends Fragment {
                 }
 
                 if (pass1.equals(pass2)) {
-                    AuthCredential cred = EmailAuthProvider.getCredential(firebaseUser.getEmail(), pass1);
-
-                    firebaseUser.reauthenticate(cred).addOnCompleteListener(new OnCompleteListener<Void>() {
-
+                    globals.deregister(pass1, new Consumer<Integer>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-
-                            if (task.isSuccessful()) {
-
-                                firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-
-                                        if (task.isSuccessful()) {
-                                            Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                            getActivity().finish();
-                                            startActivity(intent);
-                                        } else {
-                                            Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-                            } else {
-                                Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        public void accept(Integer t) {
+                            if (t == 1) {
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().finish();
+                                startActivity(intent);
+                            } else if (t == 0) {
+                                Toast.makeText(getActivity(), R.string.DELACC_failed_delete_toast, Toast.LENGTH_SHORT).show();
+                            } else if (t == -1) {
+                                Toast.makeText(getActivity(), R.string.DELACC_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-
                 } else {
                     Toast.makeText(getActivity(), R.string.DELACC_diff_pass_toast, Toast.LENGTH_SHORT).show();
                 }

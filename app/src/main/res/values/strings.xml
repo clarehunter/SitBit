@@ -9,6 +9,8 @@
     <string name="LOGIN_login_button_text">Login</string>
     <string name="LOGIN_register_field_text">New to SitBit? Register Here!</string>
     <string name="LOGIN_empty_field_toast">Empty Email or Password</string>
+    <string name="LOGIN_invalid_credentials_toast">Invalid Login Credentials</string>
+    <string name="LOGIN_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!--Register Activity Strings-->
 
@@ -19,6 +21,8 @@
     <string name="REG_register_button_text">Register</string>
     <string name="REG_login_field_text">Already Registered? Login Here!</string>
     <string name="REG_empty_field_toast">Empty Name, Email, or Password</string>
+    <string name="REG_invalid_credentials_toast">Invalid Login Credentials</string>
+    <string name="REG_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!--Home Fragment Strings -->
   
@@ -41,10 +45,8 @@
     <string name="EXPORT_radio_month_text">Last Month</string>
     <string name="EXPORT_radio_from_text">From:</string>
 
-    <string name="EXPORT_format_title">Format:</string>
-    <string name="EXPORT_radio_csv_text">.csv</string>
-    <string name="EXPORT_radio_txt_text">.txt</string>
-    <string name="EXPORT_radio_pdf_text">.pdf</string>
+    <string name="EXPORT_from_text_view">To</string>
+    <string name="EXPORT_date_format_hint">mm/dd/yy</string>
 
     <string name="EXPORT_export_button_text">Export</string>
 
@@ -68,6 +70,8 @@
     <string name="DELACC_delete_button_text">Delete Account</string>
     <string name="DELACC_emtpy_pass_toast">Password(s) empty!</string>
     <string name="DELACC_diff_pass_toast">Passwords did not match!</string>
+    <string name="DELACC_failed_delete_toast">Failed to successfully delete account. Try again later.</string>
+    <string name="DELACC_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!-- Update Password Fragment Strings -->
 
@@ -76,7 +80,11 @@
     <string name="UPPASS_new_password_hint">New Password</string>
     <string name="UPPASS_update_button_text">Update Password</string>
     <string name="UPPASS_pass_updated_toast">Password updated!</string>
-    <string name="UPPASS_emtpy_pass_toast">Password(s) empty!</string>
+    <string name="UPPASS_empty_pass_toast">Password(s) empty!</string>
     <string name="UPPASS_diff_pass_toast">Passwords did not match!</string>
+    <string name="UPPASS_incorrect_pass_toast">Incorrect password!</string>
+    <string name="UPPASS_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
+
+
 
 </resources>
