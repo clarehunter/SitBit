@@ -1,7 +1,7 @@
 package com.example.sitbit;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Consumer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,30 +28,34 @@ public class LoginActivity extends AppCompatActivity {
 
         globals = Globals.getInstance();
 
-        globals.setFirebaseAuth(FirebaseAuth.getInstance());
+        int ret = globals.isLoggedIn();
 
-        if (globals.getFirebaseAuth().getCurrentUser() != null)
+        if (ret == 1)
             toHomeScreen();
+        else if (ret == -1)
+            Toast.makeText(this, R.string.LOGIN_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
     }
 
     public void onLoginClick(View view) {
         String email = emailField.getText().toString().trim();
-        String pass = passField.getText().toString().trim();
+        String password = passField.getText().toString().trim();
 
-        if (email.length() == 0 || pass.length() == 0) {
+        if (email.length() == 0 || password.length() == 0) {
             Toast.makeText(LoginActivity.this, R.string.LOGIN_empty_field_toast, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        globals.getFirebaseAuth().signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        toHomeScreen();
-                    } else {
-                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+        globals.login(email, password, new Consumer<Integer>() {
+            @Override
+            public void accept(Integer t) {
+                if (t == 1) {
+                    toHomeScreen();
+                } else if (t == 0) {
+                    Toast.makeText(LoginActivity.this, R.string.LOGIN_invalid_credentials_toast, Toast.LENGTH_SHORT).show();
+                } else if (t == -1) {
+                    Toast.makeText(LoginActivity.this, R.string.LOGIN_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
                 }
+            }
         });
     }
 
@@ -74,4 +74,5 @@ public class LoginActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
+
 }

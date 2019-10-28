@@ -2,6 +2,7 @@ package com.example.sitbit;
 
 import android.content.Context;
 
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -22,13 +23,8 @@ import android.text.Html;
 
 import android.graphics.Color;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.util.Scanner;
-import java.io.IOException;
-
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.HashMap;
 
 import com.jjoe64.graphview.GraphView;
@@ -44,8 +40,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     public static final double THRESHOLD = 1.25;
     public static final int HISTORY_SIZE = 8;
 
-    public static final int SECS_PER_BAR = 360;
-    public static final int N_BARS = 86400 / SECS_PER_BAR;
+    public static final int MILLISECS_PER_BAR = 360000;
+    public static final int N_BARS = Globals.MILLISECS_PER_DAY / MILLISECS_PER_BAR;
 
     private SensorManager sensorManager;
     private Sensor linearAccelSensor;
@@ -55,12 +51,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private TextView graphLegend2;
     private Button recordButton;
 
-    private BufferedWriter writer;
-
     private ArrayList<double[]> buffer;
     private int history;
-    
-    private HashMap<Integer, Boolean> data;
 
     private boolean recording = false;
 
@@ -89,17 +81,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         globals = Globals.getInstance();
 
-        try {
-            writer = new BufferedWriter(new FileWriter(globals.getSedentaryDataFile(), true));
-        } catch (IOException e) {}
-
         // sensor buffer init
         buffer = new ArrayList<>(BUFFER_SIZE);
 
         // history init
         history = HISTORY_SIZE / 2;
 
-        getGraphData();
         createGraph();
 
         recordButton.setOnClickListener(new View.OnClickListener() {
@@ -112,40 +99,73 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         return view;
     }
 
-    private void getGraphData() {
-        data = new HashMap<>();
-
-        try (Scanner reader = new Scanner(globals.getSedentaryDataFile())){
-            while (reader.hasNextLine()) {
-
-                String[] tokens = reader.nextLine().split(",");
-
-                Date date = new Date(Long.parseLong(tokens[1]));
-
-                int second = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
-                boolean isActive = tokens[0].equals("active");
-
-                data.put(second, isActive);
-            }
-        } catch (Exception e) {}
-    }
-
     private void createGraph() {
 
-        DataPoint[] points = new DataPoint[N_BARS];
+        long currentTime = System.currentTimeMillis();
 
-        for (int i = 0; i < N_BARS; i++) {
 
-            boolean dataPresent = false;
+        // creating graph for today's data
+        // startTime = start of today
+        // endTime = end of today
+        final long startTime = currentTime - currentTime % Globals.MILLISECS_PER_DAY;
+        long endTime = startTime + Globals.MILLISECS_PER_DAY;
 
-            for (int j = 0; j < SECS_PER_BAR; j++)
-                dataPresent |= data.containsKey(i * SECS_PER_BAR + j);
+        globals.getDataEntries(startTime, endTime, new Consumer<HashMap<Long, Boolean>>() {
+            @Override
+            public void accept(HashMap<Long, Boolean> data) {
 
-            points[i] = new DataPoint(i, dataPresent ? 1 : 0);
-        }
+                // sort data from earliest to latest
+                ArrayList<Long> keys = new ArrayList<>(data.keySet());
+                Collections.sort(keys);
 
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
-        graph.addSeries(series);
+                DataPoint[] points = new DataPoint[N_BARS];
+
+                int curr = 0;
+
+                // for every bar in the graph
+                for (int i = 0; i < N_BARS; i++) {
+
+                    long limit = startTime + (i + 1) * MILLISECS_PER_BAR;
+
+                    int nSed = 0;
+                    int nAct = 0;
+
+                    while (curr < keys.size() && keys.get(curr) < limit) {
+                        if (data.get(keys.get(curr)))
+                            nAct++;
+                        else
+                            nSed++;
+                        curr++;
+                    }
+
+                    if (nSed > nAct)
+                        points[i] = new DataPoint(i, 0.5);
+                    else if (nSed < nAct)
+                        points[i] = new DataPoint(i, 1);
+                    else
+                        points[i] = new DataPoint(i, 0);
+                }
+
+                BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
+                graph.addSeries(series);
+
+                series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+                    @Override
+                    public int get(DataPoint point) {
+                        double y = point.getY();
+
+                        if (y > 0.9)
+                            return getResources().getColor(R.color.colorPrimary);
+                        else if (y > 0.4)
+                            return Color.RED;
+                        else
+                            return Color.WHITE;
+                    }
+                });
+
+                series.setSpacing(0);
+            }
+        });
 
         // remove grid lines and labels
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
@@ -161,36 +181,6 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(N_BARS);
-
-        // styling
-        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint point) {
-
-                int nSed = 0;
-                int nAct = 0;
-
-                for (int i = 0; i < SECS_PER_BAR; i++) {
-
-                    Boolean isSedentary = data.get(((int) point.getX()) * SECS_PER_BAR + i);
-
-                    if (isSedentary != null)
-                        if (isSedentary)
-                            nSed++;
-                        else
-                            nAct++;
-                }
-
-                if (nSed > nAct)
-                    return Color.RED;
-                else if (nSed < nAct)
-                    return getResources().getColor(R.color.colorPrimary);
-                else
-                    return Color.WHITE;
-            }
-        });
-
-        series.setSpacing(0);
     }
 
 
@@ -224,22 +214,19 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         if (sensorEvent.sensor == linearAccelSensor) {
 
-            double[] sensorReading = new double[] { sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2], System.currentTimeMillis() };
+            double[] sensorReading = new double[] { sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2] };
 
             buffer.add(sensorReading);
 
             if (buffer.size() == BUFFER_SIZE) {
 
                 double max = 0.0;
-                long time = 0L;
 
                 for (int i = 0; i < BUFFER_SIZE; i++) {
                     double accelMagnitude = Math.sqrt(Math.pow(sensorReading[0], 2) + Math.pow(sensorReading[1], 2) + Math.pow(sensorReading[2], 2));
 
-                    if (accelMagnitude > max) {
+                    if (accelMagnitude > max)
                         max = accelMagnitude;
-                        time = (long) sensorReading[3];
-                    }
                 }
 
                 if (max > THRESHOLD && history < HISTORY_SIZE - 1)
@@ -248,12 +235,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 if (max <= THRESHOLD && history > 0)
                     history--;
 
-                try {
-                    writer.write((history < HISTORY_SIZE / 2 ? "sedentary" : "active") + "," + time + "\n");
-                    writer.flush();
-                } catch (IOException e) {
-                    System.out.println("Failed to append to SedentaryData!");
-                }
+                globals.saveDataEntry(System.currentTimeMillis(), history < HISTORY_SIZE / 2 ? false : true);
 
                 buffer.clear();
             }
