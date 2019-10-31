@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private NavController navController;
 
+    private Globals globals;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(navigationView, navController);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        globals = Globals.getInstance();
+
+        globals.deleteOldData();
 
     }
 

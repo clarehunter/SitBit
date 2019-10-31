@@ -24,6 +24,7 @@ import android.text.Html;
 import android.graphics.Color;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -107,8 +108,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         // creating graph for today's data
         // startTime = start of today
         // endTime = end of today
-        final long startTime = currentTime - currentTime % Globals.MILLISECS_PER_DAY;
-        long endTime = startTime + Globals.MILLISECS_PER_DAY;
+        Calendar[] lastDay = Globals.getDayInterval(currentTime);
+        final long startTime = lastDay[0].getTimeInMillis();
+        long endTime = lastDay[1].getTimeInMillis();
 
         globals.getDataEntries(startTime, endTime, new Consumer<HashMap<Long, Boolean>>() {
             @Override
