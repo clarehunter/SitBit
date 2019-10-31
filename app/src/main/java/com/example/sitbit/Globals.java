@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -37,6 +38,72 @@ public class Globals {
         if (instance == null)
             instance = new Globals();
         return instance;
+    }
+
+    public static Calendar[] getDayInterval(long time) {
+        Calendar lastDayStart = Calendar.getInstance();
+        lastDayStart.setTimeInMillis(time);
+        lastDayStart.set(Calendar.AM_PM, Calendar.AM);
+        lastDayStart.set(Calendar.HOUR, 0);
+        lastDayStart.set(Calendar.MINUTE, 0);
+        lastDayStart.set(Calendar.SECOND, 0);
+        lastDayStart.set(Calendar.MILLISECOND, 0);
+
+        Calendar lastDayEnd = Calendar.getInstance();
+        lastDayEnd.setTimeInMillis(time);
+        lastDayEnd.set(Calendar.DAY_OF_MONTH, lastDayEnd.get(Calendar.DAY_OF_MONTH) + 1);
+        lastDayEnd.set(Calendar.AM_PM, Calendar.AM);
+        lastDayEnd.set(Calendar.HOUR, 0);
+        lastDayEnd.set(Calendar.MINUTE, 0);
+        lastDayEnd.set(Calendar.SECOND, 0);
+        lastDayEnd.set(Calendar.MILLISECOND, 0);
+
+        return new Calendar[] { lastDayStart, lastDayEnd };
+    }
+
+    public static Calendar[] getWeekInterval(long time) {
+        Calendar lastWeekStart = Calendar.getInstance();
+        lastWeekStart.setTimeInMillis(time);
+        lastWeekStart.set(Calendar.DAY_OF_MONTH, lastWeekStart.get(Calendar.DAY_OF_MONTH) - 6);
+        lastWeekStart.set(Calendar.AM_PM, Calendar.AM);
+        lastWeekStart.set(Calendar.HOUR, 0);
+        lastWeekStart.set(Calendar.MINUTE, 0);
+        lastWeekStart.set(Calendar.SECOND, 0);
+        lastWeekStart.set(Calendar.MILLISECOND, 0);
+
+        Calendar lastWeekEnd = Calendar.getInstance();
+        lastWeekEnd.setTimeInMillis(time);
+        lastWeekEnd.set(Calendar.DAY_OF_MONTH, lastWeekEnd.get(Calendar.DAY_OF_MONTH) + 1);
+        lastWeekEnd.set(Calendar.AM_PM, Calendar.AM);
+        lastWeekEnd.set(Calendar.HOUR, 0);
+        lastWeekEnd.set(Calendar.MINUTE, 0);
+        lastWeekEnd.set(Calendar.SECOND, 0);
+        lastWeekEnd.set(Calendar.MILLISECOND, 0);
+
+        return new Calendar[] { lastWeekStart, lastWeekEnd };
+    }
+
+    public static Calendar[] getMonthInterval(long time) {
+        Calendar lastMonthStart = Calendar.getInstance();
+        lastMonthStart.setTimeInMillis(time);
+        lastMonthStart.set(Calendar.MONTH, lastMonthStart.get(Calendar.MONTH) - 1);
+        lastMonthStart.set(Calendar.DAY_OF_MONTH, lastMonthStart.get(Calendar.DAY_OF_MONTH) + 1);
+        lastMonthStart.set(Calendar.AM_PM, Calendar.AM);
+        lastMonthStart.set(Calendar.HOUR, 0);
+        lastMonthStart.set(Calendar.MINUTE, 0);
+        lastMonthStart.set(Calendar.SECOND, 0);
+        lastMonthStart.set(Calendar.MILLISECOND, 0);
+
+        Calendar lastMonthEnd = Calendar.getInstance();
+        lastMonthEnd.setTimeInMillis(time);
+        lastMonthEnd.set(Calendar.DAY_OF_MONTH, lastMonthEnd.get(Calendar.DAY_OF_MONTH) + 1);
+        lastMonthEnd.set(Calendar.AM_PM, Calendar.AM);
+        lastMonthEnd.set(Calendar.HOUR, 0);
+        lastMonthEnd.set(Calendar.MINUTE, 0);
+        lastMonthEnd.set(Calendar.SECOND, 0);
+        lastMonthEnd.set(Calendar.MILLISECOND, 0);
+
+        return new Calendar[] { lastMonthStart, lastMonthEnd };
     }
 
     // method for getting the firebase authentication instance
@@ -228,9 +295,11 @@ public class Globals {
         if (user == null)
             return -1;
 
-        DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData").child(new Long(time - time % 86400000).toString());
-        dataRef.child("Date").setValue(new Date(time).toString());
+        Calendar[] interval = getDayInterval(time);
 
+        DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData").child(new Long(interval[0].getTimeInMillis()).toString());
+
+        dataRef.child("Date").setValue(interval[0].getTime().toString());
         dataRef.child("Data").child(new Long(time).toString()).setValue(isActive ? "true" : "false");
         return 0;
     }
@@ -240,6 +309,7 @@ public class Globals {
     // consumer is responsible for handling the data
     // passes null if failed to get entries
     // passes a hashmap<time, isActive> if successful
+    // note* startTime must be on the boundary of a day (e.g. Oct 31st, 12:00 AM)
     public void getDataEntries(final long startTime, final long endTime, final Consumer<HashMap<Long, Boolean>> consumer) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
@@ -261,7 +331,7 @@ public class Globals {
 
                 HashMap<Long, Boolean> entries = new HashMap<>();
 
-                for (long curr = startTime - startTime % MILLISECS_PER_DAY; curr <= endTime; curr += MILLISECS_PER_DAY) {
+                for (long curr = startTime; curr <= endTime; curr += MILLISECS_PER_DAY) {
 
                     DataSnapshot daySnapshot = dataSnapshot.child(new Long(curr).toString()).child("Data");
 
@@ -269,7 +339,6 @@ public class Globals {
                         long time = Long.parseLong(entrySnapshot.getKey());
                         boolean isActive = Boolean.parseBoolean((String) entrySnapshot.getValue());
 
-                        System.out.println(time +"," + startTime + "," + endTime);
                         if (time >= startTime && time <= endTime)
                             entries.put(time, isActive);
                     }
@@ -284,4 +353,44 @@ public class Globals {
             }
         });
     }
+
+    public int deleteOldData() {
+        FirebaseAuth auth = getAuth();
+        FirebaseDatabase database = getDatabase();
+        if (auth == null || database == null)
+            return -1;
+
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null)
+            return -1;
+
+        final DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData");
+
+        dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long deleteBoundary = System.currentTimeMillis() - (32 * 24 * 60 * 60 * 1000L);
+
+                System.out.println("deleting data older than " + deleteBoundary);
+
+                for (DataSnapshot dayData : dataSnapshot.getChildren()) {
+
+                    System.out.println("considering " + Long.parseLong(dayData.getKey()));
+
+                    if (Long.parseLong(dayData.getKey()) < deleteBoundary) {
+                        System.out.println("deleting " + dayData.getKey());
+                        dataRef.child(dayData.getKey()).removeValue();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+        return 1;
+    }
+
 }

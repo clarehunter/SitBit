@@ -23,26 +23,17 @@
             <RadioButton
                 android:id="@+id/EXPORT_radio_day"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/EXPORT_radio_day_text" />
+                android:layout_height="wrap_content" />
 
             <RadioButton
                 android:id="@+id/EXPORT_radio_week"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/EXPORT_radio_week_text" />
+                android:layout_height="wrap_content" />
 
             <RadioButton
                 android:id="@+id/EXPORT_radio_month"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/EXPORT_radio_month_text" />
-
-            <RadioButton
-                android:id="@+id/EXPORT_radio_from"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/EXPORT_radio_from_text" />
+                android:layout_height="wrap_content" />
 
         </RadioGroup>
 
@@ -67,40 +58,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/EXPORT_date_start_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:ems="10"
-            android:hint="@string/EXPORT_date_format_hint"
-            android:inputType="date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EXPORT_radio_group_date" />
-
-        <TextView
-            android:id="@+id/EXPORT_to_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/EXPORT_from_text_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EXPORT_date_start_text" />
-
-        <EditText
-            android:id="@+id/EXPORT_date_end_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:ems="10"
-            android:hint="@string/EXPORT_date_format_hint"
-            android:inputType="date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EXPORT_to_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
