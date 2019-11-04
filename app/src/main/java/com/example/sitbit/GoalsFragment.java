@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -15,6 +16,9 @@ import android.view.ViewGroup;
  */
 public class GoalsFragment extends Fragment {
 
+    private Button buttonEdit;
+    private Button buttonAdd;
+    private Button buttonDelete;
 
     public GoalsFragment() {
         // Required empty public constructor
@@ -25,7 +29,13 @@ public class GoalsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals, container, false);
+        View view =  inflater.inflate(R.layout.fragment_goals, container, false);
+
+        buttonEdit = view.findViewById(R.id.editGoalsButton);
+        buttonAdd = view.findViewById(R.id.addGoalButton);
+        buttonDelete = view.findViewById(R.id.deleteGoalsButton);
+
+        return view;
     }
 
 }
