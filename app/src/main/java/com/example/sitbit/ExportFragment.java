@@ -21,10 +21,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 public class ExportFragment extends Fragment {
 
@@ -47,26 +44,26 @@ public class ExportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export, container, false);
 
-        radioGroup = view.findViewById(R.id.EXPORT_radio_group_date);
+        radioGroup = view.findViewById(R.id.GOAL_radio_group_period);
 
         long currentTime = System.currentTimeMillis();
 
-        radioLastDay = view.findViewById(R.id.EXPORT_radio_day);
+        radioLastDay = view.findViewById(R.id.GOAL_radio__one_day);
         final Calendar[] lastDay = Globals.getDayInterval(currentTime);
         String lastDayText = String.format("Last Day: [%d/%d, %d/%d]", lastDay[0].get(Calendar.DAY_OF_MONTH), lastDay[0].get(Calendar.MONTH) + 1, lastDay[1].get(Calendar.DAY_OF_MONTH), lastDay[1].get(Calendar.MONTH) + 1);
         radioLastDay.setText(lastDayText);
 
-        radioLastWeek = view.findViewById(R.id.EXPORT_radio_week);
+        radioLastWeek = view.findViewById(R.id.GOAL_radio_seven_day);
         final Calendar[] lastWeek = Globals.getWeekInterval(currentTime);
         String lastWeekText = String.format("Last Week: [%d/%d, %d/%d]", lastWeek[0].get(Calendar.DAY_OF_MONTH), lastWeek[0].get(Calendar.MONTH) + 1, lastWeek[1].get(Calendar.DAY_OF_MONTH), lastWeek[1].get(Calendar.MONTH) + 1);
         radioLastWeek.setText(lastWeekText);
 
-        radioLastMonth = view.findViewById(R.id.EXPORT_radio_month);
+        radioLastMonth = view.findViewById(R.id.GOAL_radio_thirty_day);
         final Calendar[] lastMonth = Globals.getMonthInterval(currentTime);
         String lastMonthText = String.format("Last Month: [%d/%d, %d/%d]", lastMonth[0].get(Calendar.DAY_OF_MONTH), lastMonth[0].get(Calendar.MONTH) + 1, lastMonth[1].get(Calendar.DAY_OF_MONTH), lastMonth[1].get(Calendar.MONTH) + 1);
         radioLastMonth.setText(lastMonthText);
 
-        exportButton = view.findViewById(R.id.EXPORT_export_button);
+        exportButton = view.findViewById(R.id.GOAL_add_goal_button);
 
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,9 +76,9 @@ public class ExportFragment extends Fragment {
                     intent.putExtra(Intent.EXTRA_TITLE, "SedentaryData");
 
                     switch (radioGroup.getCheckedRadioButtonId()) {
-                        case R.id.EXPORT_radio_day: startActivityForResult(intent, DAY_CODE); break;
-                        case R.id.EXPORT_radio_week: startActivityForResult(intent, WEEK_CODE); break;
-                        case R.id.EXPORT_radio_month: startActivityForResult(intent, MONTH_CODE); break;
+                        case R.id.GOAL_radio__one_day: startActivityForResult(intent, DAY_CODE); break;
+                        case R.id.GOAL_radio_seven_day: startActivityForResult(intent, WEEK_CODE); break;
+                        case R.id.GOAL_radio_thirty_day: startActivityForResult(intent, MONTH_CODE); break;
                     }
                 } else {
 

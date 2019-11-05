@@ -11,34 +11,34 @@
         android:layout_height="match_parent">
 
         <RadioGroup
-            android:id="@+id/EXPORT_radio_group_date"
+            android:id="@+id/GOAL_radio_group_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginLeft="64dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EXPORT_date_title">
+            app:layout_constraintTop_toBottomOf="@+id/GOAL_add_goal">
 
             <RadioButton
-                android:id="@+id/EXPORT_radio_day"
+                android:id="@+id/GOAL_radio__one_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/EXPORT_radio_week"
+                android:id="@+id/GOAL_radio_seven_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/EXPORT_radio_month"
+                android:id="@+id/GOAL_radio_thirty_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/EXPORT_date_title"
+            android:id="@+id/GOAL_add_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/EXPORT_export_button"
+            android:id="@+id/GOAL_add_goal_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
