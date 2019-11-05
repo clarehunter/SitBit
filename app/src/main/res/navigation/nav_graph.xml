@@ -64,5 +64,10 @@
         android:name="com.example.sitbit.UpdatePasswordFragment"
         android:label="Update Password"
         tools:layout="@layout/fragment_update_password" />
+    <fragment
+        android:id="@+id/add_goal_fragment"
+        android:name="com.example.sitbit.AddGoalFragment"
+        android:label="Add Goal"
+        tools:layout="@layout/fragment_add_goal" />
 
 </navigation>

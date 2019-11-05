@@ -2,8 +2,9 @@ package com.example.sitbit;
 
 
 import android.os.Bundle;
-
+import android.content.Intent;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +32,31 @@ public class GoalsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_goals, container, false);
 
-        buttonEdit = view.findViewById(R.id.editGoalsButton);
-        buttonAdd = view.findViewById(R.id.addGoalButton);
-        buttonDelete = view.findViewById(R.id.deleteGoalsButton);
+        ((Button) view.findViewById(R.id.addGoalButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.add_goal_fragment);
+            }
+        });
+        ((Button) view.findViewById(R.id.editGoalsButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.settings_account_fragment);
+            }
+        });
+        ((Button) view.findViewById(R.id.deleteGoalsButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.settings_account_fragment);
+            }
+        });
+
+
+
 
         return view;
     }
+
+
 
 }

@@ -25,7 +25,7 @@
     <string name="REG_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!--Home Fragment Strings -->
-  
+
     <string name="HOME_today_graph_title">Today</string>
     <string name="HOME_week_graph_title">This Week</string>
     <string name="HOME_recording_button_text">Start Recording</string>
@@ -78,6 +78,8 @@
     <string name="UPPASS_incorrect_pass_toast">Incorrect password!</string>
     <string name="UPPASS_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
