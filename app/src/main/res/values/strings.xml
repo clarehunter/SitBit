@@ -45,13 +45,6 @@
     <!--Export Fragment Strings -->
 
     <string name="EXPORT_date_title">Date:</string>
-    <string name="EXPORT_radio_day_text">Last Day</string>
-    <string name="EXPORT_radio_week_text">Last Week</string>
-    <string name="EXPORT_radio_month_text">Last Month</string>
-    <string name="EXPORT_radio_from_text">From:</string>
-
-    <string name="EXPORT_from_text_view">To</string>
-    <string name="EXPORT_date_format_hint">mm/dd/yy</string>
 
     <string name="EXPORT_export_button_text">Export</string>
 
