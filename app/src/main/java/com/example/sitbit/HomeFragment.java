@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private Sensor linearAccelSensor;
 
     private GraphView graph;
+    private ArrayList<GraphView> weekGraphs;
     private TextView graphLegend1;
     private TextView graphLegend2;
     private Button recordButton;
@@ -72,6 +73,14 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         // graphical artifact init
         graph = (GraphView) view.findViewById(R.id.bar_graph);
+        weekGraphs = new ArrayList<>();
+        weekGraphs.add((GraphView) view.findViewById(R.id.sun_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.mon_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.tues_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.wed_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.thurs_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.fri_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.sat_bar_graph));
         graphLegend1 = (TextView) view.findViewById(R.id.todayGraphLegend);
         graphLegend2 = (TextView) view.findViewById(R.id.weekGraphLegend);
         recordButton = (Button) view.findViewById(R.id.HOME_record_button);
@@ -122,6 +131,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
                 int curr = 0;
 
+                final ArrayList<Double> classification = new ArrayList<>();
+
                 // for every bar in the graph
                 for (int i = 0; i < N_BARS; i++) {
 
@@ -139,11 +150,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                     }
 
                     if (nSed > nAct)
-                        points[i] = new DataPoint(i, 0.5);
+                        classification.add(0.5);
                     else if (nSed < nAct)
-                        points[i] = new DataPoint(i, 1);
+                        classification.add(1.0);
                     else
-                        points[i] = new DataPoint(i, 0);
+                        classification.add(0.0);
+                    points[i] = new DataPoint(i, 1);
                 }
 
                 BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
@@ -152,11 +164,11 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
                     @Override
                     public int get(DataPoint point) {
-                        double y = point.getY();
+                        double c = classification.get((int) point.getX());
 
-                        if (y > 0.9)
+                        if (c > 0.9)
                             return getResources().getColor(R.color.colorPrimary);
-                        else if (y > 0.4)
+                        else if (c > 0.4)
                             return Color.RED;
                         else
                             return Color.WHITE;
@@ -167,20 +179,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             }
         });
 
-        // remove grid lines and labels
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-
-        // set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(1);
-
-        // set manual X bounds
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(N_BARS);
+        formatGraphs();
     }
 
 
@@ -239,6 +238,41 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
                 buffer.clear();
             }
+        }
+    }
+
+    private void formatGraphs() {
+        // remove grid lines and labels
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+
+        // set manual Y bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(1);
+
+        // set manual X bounds
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(N_BARS);
+
+        // format week graphs
+        for (int i = 0; i < weekGraphs.size(); i++) {
+            // remove grid lines and labels
+            weekGraphs.get(i).getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            weekGraphs.get(i).getGridLabelRenderer().setVerticalLabelsVisible(false);
+            weekGraphs.get(i).getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+
+            // set manual Y bounds
+            weekGraphs.get(i).getViewport().setYAxisBoundsManual(true);
+            weekGraphs.get(i).getViewport().setMinY(0);
+            weekGraphs.get(i).getViewport().setMaxY(1);
+
+            // set manual X bounds
+            weekGraphs.get(i).getViewport().setXAxisBoundsManual(true);
+            weekGraphs.get(i).getViewport().setMinX(0);
+            weekGraphs.get(i).getViewport().setMaxX(N_BARS);
         }
     }
 }
