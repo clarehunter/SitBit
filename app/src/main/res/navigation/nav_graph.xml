@@ -69,5 +69,10 @@
         android:name="com.example.sitbit.AddGoalFragment"
         android:label="Add Goal"
         tools:layout="@layout/fragment_add_goal" />
+    <fragment
+        android:id="@+id/edit_goal_fragment"
+        android:name="com.example.sitbit.EditGoalFragment"
+        android:label="Edit Goal"
+        tools:layout="@layout/fragment_edit_goal" />
 
 </navigation>

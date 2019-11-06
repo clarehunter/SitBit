@@ -21,24 +21,24 @@
             app:layout_constraintTop_toBottomOf="@+id/GOAL_add_goal">
 
             <RadioButton
-                android:id="@+id/GOAL_radio__one_day"
+                android:id="@+id/GOAL_radio__one_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/GOAL_radio_seven_day"
+                android:id="@+id/GOAL_radio_seven_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/GOAL_radio_thirty_day"
+                android:id="@+id/GOAL_radio_thirty_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/GOAL_add_goal"
+            android:id="@+id/GOAL_edit_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/GOAL_add_goal_button"
+            android:id="@+id/GOAL_edit_goal_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"

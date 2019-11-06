@@ -14,22 +14,24 @@
             android:id="@+id/one_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
             android:text="One day"
-            app:layout_constraintBottom_toTopOf="@+id/GOAL_add_goal_button"
+            app:layout_constraintBottom_toTopOf="@+id/GOAL_edit_goal_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/GOAL_radio_group_period"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.172" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/thirty_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="148dp"
             android:text="Thirty Days"
             app:layout_constraintBottom_toTopOf="@+id/GOAL_add_goal_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/GOAL_radio_group_period"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.296" />
@@ -42,27 +44,27 @@
             android:layout_marginLeft="64dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/GOAL_add_goal">
+            app:layout_constraintTop_toBottomOf="@+id/GOAL_edit_goal">
 
             <RadioButton
-                android:id="@+id/GOAL_radio__one_day"
+                android:id="@+id/GOAL_radio__one_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/GOAL_radio_seven_day"
+                android:id="@+id/GOAL_radio_seven_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/GOAL_radio_thirty_day"
+                android:id="@+id/GOAL_radio_thirty_day_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/GOAL_add_goal"
+            android:id="@+id/GOAL_edit_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -86,11 +88,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/GOAL_add_goal_button"
+            android:id="@+id/GOAL_edit_goal_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:text="Add Goal"
+            android:text="Edit Goal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.54"
@@ -100,18 +102,20 @@
             android:id="@+id/seven_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
             android:text="Seven Days"
-            app:layout_constraintBottom_toTopOf="@+id/GOAL_add_goal_button"
+            app:layout_constraintBottom_toTopOf="@+id/GOAL_edit_goal_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/GOAL_radio_group_period"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.234" />
+            app:layout_constraintVertical_bias="0.002" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
             android:layout_width="409dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/GOAL_add_goal_button"
+            app:layout_constraintBottom_toTopOf="@+id/GOAL_edit_goal_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.645">
@@ -125,6 +129,16 @@
             android:hint="Total Time (min)"
             tools:layout_editor_absoluteX="4dp"
             tools:layout_editor_absoluteY="332dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/GOAL_edit_choose_goal"
+            android:layout_width="406dp"
+            android:layout_height="88dp"
+            android:layout_marginBottom="116dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="4dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@ public class GoalsFragment extends Fragment {
         ((Button) view.findViewById(R.id.editGoalsButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.settings_account_fragment);
+                Navigation.findNavController(view).navigate(R.id.edit_goal_fragment);
             }
         });
         ((Button) view.findViewById(R.id.deleteGoalsButton)).setOnClickListener(new View.OnClickListener() {
