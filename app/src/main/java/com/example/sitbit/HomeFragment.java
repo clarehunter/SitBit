@@ -97,7 +97,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         // history init
         history = HISTORY_SIZE / 2;
 
-        createGraph();
+        createGraph(System.currentTimeMillis(), graph);
+        createWeekGraphs();
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,15 +110,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         return view;
     }
 
-    private void createGraph() {
-
-        long currentTime = System.currentTimeMillis();
-
+    private void createGraph(long time, final GraphView graph) {
 
         // creating graph for today's data
         // startTime = start of today
         // endTime = end of today
-        Calendar[] lastDay = Globals.getDayInterval(currentTime);
+        Calendar[] lastDay = Globals.getDayInterval(time);
         final long startTime = lastDay[0].getTimeInMillis();
         long endTime = lastDay[1].getTimeInMillis();
 
@@ -161,6 +159,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 }
 
                 BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
+                graph.removeAllSeries();
                 graph.addSeries(series);
 
                 series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
@@ -181,7 +180,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             }
         });
 
-        formatGraphs();
+        formatGraph(graph);
     }
 
 
@@ -238,43 +237,55 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
                 globals.saveDataEntry(System.currentTimeMillis(), history < HISTORY_SIZE / 2 ? false : true);
 
+                // update graph in real time
+                createGraph(System.currentTimeMillis(), graph);
+                createWeekGraphs();
+
                 buffer.clear();
             }
         }
     }
 
-    private void formatGraphs() {
+    private void formatGraph(GraphView g) {
         // remove grid lines and labels
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        g.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        g.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        g.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
 
         // set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(1);
+        g.getViewport().setYAxisBoundsManual(true);
+        g.getViewport().setMinY(0);
+        g.getViewport().setMaxY(1);
 
         // set manual X bounds
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(N_BARS);
+        g.getViewport().setXAxisBoundsManual(true);
+        g.getViewport().setMinX(0);
+        g.getViewport().setMaxX(N_BARS);
+    }
 
-        // format week graphs
+    // create the graphs for the week
+    private void createWeekGraphs() {
+
+        long curTime = System.currentTimeMillis();
+
+        Calendar[] curDay = Globals.getDayInterval(curTime);
+        long curDayStart = curDay[0].getTimeInMillis();
+        int curDayInt = curDay[0].get(Calendar.DAY_OF_WEEK);
+
+        Calendar[] weekStart = Globals.getDayInterval(curDayStart - ((curDayInt - 1) * Globals.MILLISECS_PER_DAY));
+        long weekDayStart = weekStart[0].getTimeInMillis();
+
+        // create the graphs for the days of the week so far
+        long nextDay = weekDayStart;
+        System.out.println(nextDay);
         for (int i = 0; i < weekGraphs.size(); i++) {
-            // remove grid lines and labels
-            weekGraphs.get(i).getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            weekGraphs.get(i).getGridLabelRenderer().setVerticalLabelsVisible(false);
-            weekGraphs.get(i).getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-
-            // set manual Y bounds
-            weekGraphs.get(i).getViewport().setYAxisBoundsManual(true);
-            weekGraphs.get(i).getViewport().setMinY(0);
-            weekGraphs.get(i).getViewport().setMaxY(1);
-
-            // set manual X bounds
-            weekGraphs.get(i).getViewport().setXAxisBoundsManual(true);
-            weekGraphs.get(i).getViewport().setMinX(0);
-            weekGraphs.get(i).getViewport().setMaxX(N_BARS);
+            if (i < curDayInt) {
+                createGraph(nextDay, weekGraphs.get(i));
+                nextDay = Globals.getDayInterval(nextDay)[1].getTimeInMillis();
+            } else {
+                formatGraph(weekGraphs.get(i));
+            }
         }
+
     }
 }

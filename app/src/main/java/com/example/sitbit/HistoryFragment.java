@@ -21,6 +21,7 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,31 +65,39 @@ public class HistoryFragment extends Fragment {
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView cal, int year, int month, int day) {
-                Date newDate = new Date(year, month, day);
-                String dateText = (newDate.getMonth() + 1) + "/" + newDate.getDate();
+                Calendar calDay = Calendar.getInstance();
+                calDay.set(Calendar.YEAR, year);
+                calDay.set(Calendar.MONTH, month);
+                calDay.set(Calendar.DAY_OF_MONTH, day);
+
+                String dateText = ((month + 1) + "/" + day);
                 date.setText(dateText);
-                createGraph(newDate.getTime());
+                createGraph(calDay.getTimeInMillis());
             }
         });
 
         globals = Globals.getInstance();
 
         // set initial date text and graph
-        Date curDate = new Date(calendar.getDate());
-        String dateText = (curDate.getMonth() + 1) + "/" + curDate.getDate();
+
+        Calendar calDay = Calendar.getInstance();
+        calDay.setTimeInMillis(System.currentTimeMillis());
+        String dateText = (calDay.get(Calendar.MONTH) + 1) + "/" + calDay.get(Calendar.DAY_OF_MONTH);
         date.setText(dateText);
         createGraph(calendar.getDate());
 
         return view;
     }
 
-    private void createGraph(long date) {
+    private void createGraph(long time) {
 
         // creating graph for selected day's data
         // startTime = start of day
         // endTime = end of day
-        final long startTime = date;
-        long endTime = startTime + Globals.MILLISECS_PER_DAY;
+        Calendar[] lastDay = Globals.getDayInterval(time);
+        final long startTime = lastDay[0].getTimeInMillis();
+        long endTime = lastDay[1].getTimeInMillis();
+
 
         globals.getDataEntries(startTime, endTime, new Consumer<HashMap<Long, Boolean>>() {
             @Override
@@ -101,6 +110,8 @@ public class HistoryFragment extends Fragment {
                 DataPoint[] points = new DataPoint[N_BARS];
 
                 int curr = 0;
+
+                final ArrayList<Double> classification = new ArrayList<>();
 
                 // for every bar in the graph
                 for (int i = 0; i < N_BARS; i++) {
@@ -119,24 +130,26 @@ public class HistoryFragment extends Fragment {
                     }
 
                     if (nSed > nAct)
-                        points[i] = new DataPoint(i, 0.5);
+                        classification.add(0.5);
                     else if (nSed < nAct)
-                        points[i] = new DataPoint(i, 1);
+                        classification.add(1.0);
                     else
-                        points[i] = new DataPoint(i, 0);
+                        classification.add(0.0);
+                    points[i] = new DataPoint(i, 1);
                 }
 
                 BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
+                graph.removeAllSeries();
                 graph.addSeries(series);
 
                 series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
                     @Override
                     public int get(DataPoint point) {
-                        double y = point.getY();
+                        double c = classification.get((int) point.getX());
 
-                        if (y > 0.9)
+                        if (c > 0.9)
                             return getResources().getColor(R.color.colorPrimary);
-                        else if (y > 0.4)
+                        else if (c > 0.4)
                             return Color.RED;
                         else
                             return Color.WHITE;
