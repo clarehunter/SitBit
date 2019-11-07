@@ -24,7 +24,7 @@
             app:layout_constraintHorizontal_bias="0.224"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.328" />
+            app:layout_constraintVertical_bias="0.276" />
 
         <TextView
             android:id="@+id/active_time_duration"
@@ -36,7 +36,7 @@
             app:layout_constraintHorizontal_bias="0.209"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.275" />
+            app:layout_constraintVertical_bias="0.219" />
 
         <Switch
             android:id="@+id/goal_switch"
@@ -49,34 +49,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.076" />
-
-        <SeekBar
-            android:id="@+id/total_time_seek"
-            android:layout_width="170dp"
-            android:layout_height="34dp"
-            android:max="24"
-            android:maxHeight="6dp"
-            android:minHeight="6dp"
-            android:paddingLeft="100dp"
-            android:paddingRight="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.225"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.214" />
-
-        <TextView
-            android:id="@+id/goal_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="How long do you want to achieve your goal?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.293"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.162" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -100,13 +72,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.451" />
-
-        <TextView
-            android:id="@+id/total_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="234dp"
-            tools:layout_editor_absoluteY="158dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
