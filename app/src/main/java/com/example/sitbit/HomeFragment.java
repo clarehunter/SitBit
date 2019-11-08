@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private Sensor linearAccelSensor;
 
     private GraphView graph;
+    private ArrayList<GraphView> weekGraphs;
     private TextView graphLegend1;
     private TextView graphLegend2;
     private Button recordButton;
@@ -73,6 +74,14 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         // graphical artifact init
         graph = (GraphView) view.findViewById(R.id.bar_graph);
+        weekGraphs = new ArrayList<>();
+        weekGraphs.add((GraphView) view.findViewById(R.id.sun_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.mon_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.tues_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.wed_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.thurs_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.fri_bar_graph));
+        weekGraphs.add((GraphView) view.findViewById(R.id.sat_bar_graph));
         graphLegend1 = (TextView) view.findViewById(R.id.todayGraphLegend);
         graphLegend2 = (TextView) view.findViewById(R.id.weekGraphLegend);
         recordButton = (Button) view.findViewById(R.id.HOME_record_button);
@@ -88,7 +97,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         // history init
         history = HISTORY_SIZE / 2;
 
-        createGraph();
+        createGraph(System.currentTimeMillis(), graph);
+        createWeekGraphs();
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,15 +110,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         return view;
     }
 
-    private void createGraph() {
-
-        long currentTime = System.currentTimeMillis();
-
+    private void createGraph(long time, final GraphView graph) {
 
         // creating graph for today's data
         // startTime = start of today
         // endTime = end of today
-        Calendar[] lastDay = Globals.getDayInterval(currentTime);
+        Calendar[] lastDay = Globals.getDayInterval(time);
         final long startTime = lastDay[0].getTimeInMillis();
         long endTime = lastDay[1].getTimeInMillis();
 
@@ -123,6 +130,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 DataPoint[] points = new DataPoint[N_BARS];
 
                 int curr = 0;
+
+                final ArrayList<Double> classification = new ArrayList<>();
 
                 // for every bar in the graph
                 for (int i = 0; i < N_BARS; i++) {
@@ -141,24 +150,26 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                     }
 
                     if (nSed > nAct)
-                        points[i] = new DataPoint(i, 0.5);
+                        classification.add(0.5);
                     else if (nSed < nAct)
-                        points[i] = new DataPoint(i, 1);
+                        classification.add(1.0);
                     else
-                        points[i] = new DataPoint(i, 0);
+                        classification.add(0.0);
+                    points[i] = new DataPoint(i, 1);
                 }
 
                 BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
+                graph.removeAllSeries();
                 graph.addSeries(series);
 
                 series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
                     @Override
                     public int get(DataPoint point) {
-                        double y = point.getY();
+                        double c = classification.get((int) point.getX());
 
-                        if (y > 0.9)
+                        if (c > 0.9)
                             return getResources().getColor(R.color.colorPrimary);
-                        else if (y > 0.4)
+                        else if (c > 0.4)
                             return Color.RED;
                         else
                             return Color.WHITE;
@@ -169,20 +180,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             }
         });
 
-        // remove grid lines and labels
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-
-        // set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(1);
-
-        // set manual X bounds
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(N_BARS);
+        formatGraph(graph);
     }
 
 
@@ -239,8 +237,55 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
                 globals.saveDataEntry(System.currentTimeMillis(), history < HISTORY_SIZE / 2 ? false : true);
 
+                // update graph in real time
+                createGraph(System.currentTimeMillis(), graph);
+                createWeekGraphs();
+
                 buffer.clear();
             }
         }
+    }
+
+    private void formatGraph(GraphView g) {
+        // remove grid lines and labels
+        g.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        g.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        g.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+
+        // set manual Y bounds
+        g.getViewport().setYAxisBoundsManual(true);
+        g.getViewport().setMinY(0);
+        g.getViewport().setMaxY(1);
+
+        // set manual X bounds
+        g.getViewport().setXAxisBoundsManual(true);
+        g.getViewport().setMinX(0);
+        g.getViewport().setMaxX(N_BARS);
+    }
+
+    // create the graphs for the week
+    private void createWeekGraphs() {
+
+        long curTime = System.currentTimeMillis();
+
+        Calendar[] curDay = Globals.getDayInterval(curTime);
+        long curDayStart = curDay[0].getTimeInMillis();
+        int curDayInt = curDay[0].get(Calendar.DAY_OF_WEEK);
+
+        Calendar[] weekStart = Globals.getDayInterval(curDayStart - ((curDayInt - 1) * Globals.MILLISECS_PER_DAY));
+        long weekDayStart = weekStart[0].getTimeInMillis();
+
+        // create the graphs for the days of the week so far
+        long nextDay = weekDayStart;
+        System.out.println(nextDay);
+        for (int i = 0; i < weekGraphs.size(); i++) {
+            if (i < curDayInt) {
+                createGraph(nextDay, weekGraphs.get(i));
+                nextDay = Globals.getDayInterval(nextDay)[1].getTimeInMillis();
+            } else {
+                formatGraph(weekGraphs.get(i));
+            }
+        }
+
     }
 }
