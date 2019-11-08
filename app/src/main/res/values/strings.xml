@@ -36,6 +36,11 @@
     <string name="HOME_graph_legend"><![CDATA[ <p><font color=#800000>Sedentary</font> | <font color=#00574B>Active</font></p> ]]></string>
     <string name="HOME_recording_button_disabled_text">Start Recording</string>
     <string name="HOME_recording_button_enabled_text">Stop Recording</string>
+    <string name="HOME_S_text">S</string>
+    <string name="HOME_M_text">M</string>
+    <string name="HOME_T_text">T</string>
+    <string name="HOME_W_text">W</string>
+    <string name="HOME_F_text">F</string>
 
     <!--Export Fragment Strings -->
 
