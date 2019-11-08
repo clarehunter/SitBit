@@ -37,9 +37,11 @@ import com.jjoe64.graphview.series.DataPoint;
 public class HomeFragment extends Fragment implements SensorEventListener {
 
     public static final int RECORDING_DELAY = 50000; // in microseconds; 50000 = 20 Hz
-    public static final int BUFFER_SIZE = 20;
+    public static final int BUFFER_SIZE = 40;
     public static final double THRESHOLD = 1.25;
     public static final int HISTORY_SIZE = 8;
+
+    public static final double ENTRY_DURATION = RECORDING_DELAY * BUFFER_SIZE / 1000000.0;
 
     public static final int MILLISECS_PER_BAR = 360000;
     public static final int N_BARS = Globals.MILLISECS_PER_DAY / MILLISECS_PER_BAR;

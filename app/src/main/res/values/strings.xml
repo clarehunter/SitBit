@@ -83,6 +83,11 @@
     <string name="UPPASS_incorrect_pass_toast">Incorrect password!</string>
     <string name="UPPASS_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
+    <!-- Goals Fragment Strings -->
+
+    <string name="GOALS_goal_label_text">Activity Goal</string>
+    <string name="GOALS_progress_label_text">Goal Progress</string>
+    <string name="GOALS_update_button_text">Update</string>
 
 
 </resources>

@@ -189,7 +189,8 @@ public class Globals {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         DatabaseReference userRef = database.getReference().child("Users").child(auth.getUid());
-                        userRef.setValue(email);
+                        userRef.child("Email").setValue(email);
+                        userRef.child("Goal").setValue(0);
 
                         consumer.accept(1);
                     } else {
@@ -389,6 +390,53 @@ public class Globals {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+
+        return 1;
+    }
+
+    public void getGoal(final Consumer<Integer> consumer) {
+        FirebaseAuth auth = getAuth();
+        FirebaseDatabase database = getDatabase();
+        if (auth == null || database == null) {
+            consumer.accept(-1);
+            return;
+        }
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            consumer.accept(-1);
+            return;
+        }
+
+        final DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("Goal");
+
+        dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                consumer.accept(Integer.parseInt(((Long) dataSnapshot.getValue()).toString()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { consumer.accept(-1); }
+        });
+
+
+    }
+
+    public int setGoal(int i) {
+        FirebaseAuth auth = getAuth();
+        FirebaseDatabase database = getDatabase();
+        if (auth == null || database == null)
+            return -1;
+
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null)
+            return -1;
+
+
+        if (i < 0 || i > 24)
+            return 0;
+
+        database.getReference().child("Users").child(user.getUid()).child("Goal").setValue(i);
 
         return 1;
     }

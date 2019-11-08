@@ -10,68 +10,77 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <SeekBar
-            android:id="@+id/active_time_seek"
-            android:layout_width="170dp"
-            android:layout_height="34dp"
-            android:max="24"
-            android:maxHeight="6dp"
-            android:minHeight="6dp"
-            android:paddingLeft="100dp"
-            android:paddingRight="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.224"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.276" />
-
         <TextView
-            android:id="@+id/active_time_duration"
+            android:id="@+id/GOALS_goal_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="How long do you want to be active?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.209"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.219" />
-
-        <Switch
-            android:id="@+id/goal_switch"
-            android:layout_width="101dp"
-            android:layout_height="49dp"
-            android:text="On/Off"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.125"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.076" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/GOALS_goal_label_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <SeekBar
+            android:id="@+id/GOALS_goal_seekbar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:max="24"
+            android:progress="0"
+            app:layout_constraintEnd_toStartOf="@+id/GOALS_goal_seekbar_value"
+            app:layout_constraintStart_toEndOf="@+id/GOALS_goal_label"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/current_progress"
-            android:layout_width="150dp"
-            android:layout_height="35dp"
-            android:gravity="center_horizontal"
-            android:text="Current Progress"
+            android:id="@+id/GOALS_goal_seekbar_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/GOALS_progress_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/GOALS_progress_label_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GOALS_goal_label" />
+
+        <TextView
+            android:id="@+id/GOALS_progressbar_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GOALS_goal_label" />
+
+        <ProgressBar
+            android:id="@+id/GOALS_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/GOALS_progressbar_value"
+            app:layout_constraintStart_toEndOf="@+id/GOALS_progress_label"
+            app:layout_constraintTop_toBottomOf="@+id/GOALS_goal_label" />
+
+        <Button
+            android:id="@+id/GOALS_update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/GOALS_update_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.451" />
-
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
