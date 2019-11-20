@@ -42,12 +42,6 @@
         tools:layout="@layout/fragment_settings_account" />
 
     <fragment
-        android:id="@+id/settings_health_fragment"
-        android:name="com.example.sitbit.SettingsHealth"
-        android:label="Health Settings"
-        tools:layout="@layout/fragment_settings_health" />
-
-    <fragment
         android:id="@+id/settings_notification_fragment"
         android:name="com.example.sitbit.SettingsNotificationFragment"
         android:label="Notification Settings"

@@ -118,8 +118,24 @@ public class ExportFragment extends Fragment {
                         ArrayList<Long> keys = new ArrayList<>(data.keySet());
                         Collections.sort(keys);
 
+                        Calendar c = Calendar.getInstance();
+                        c.setTimeInMillis(System.currentTimeMillis());
+
+                        writer.write("Exported On," + c.getTime() + "\n");
+                        writer.write("Number Of Entries," + keys.size() + "\n");
+
+                        int nActiveEntries = 0;
+
+                        for (Boolean entry : data.values())
+                            if (entry)
+                                nActiveEntries++;
+
+                        writer.write("Number of Active Entries," + nActiveEntries + "\n");
+                        writer.write("Seconds Active," + (nActiveEntries * Globals.TRANSMISSION_FREQ) + "\n");
+                        writer.write("Number of Sedentary Entries," + (keys.size() - nActiveEntries) + "\n");
+                        writer.write("Seconds Sedentary," + ((keys.size() - nActiveEntries) *Globals.TRANSMISSION_FREQ) + "\n");
+
                         for (Long key : keys) {
-                            Calendar c = Calendar.getInstance();
                             c.setTimeInMillis(key);
                             writer.write(c.getTime() + "," + (data.get(key) ? "active" : "sedentary") + "\n");
                         }

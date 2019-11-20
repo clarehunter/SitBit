@@ -17,11 +17,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 
 public class Globals {
+
+    public static final int TRANSMISSION_FREQ = 10; // number of seconds between entry transmissions to firebase
+
+    public static final int SECONDS_PER_CLASSIFICATION = 2; // each classification of "active" or "sedentary" represents SECONDS_PER_CLASSIFICATION seconds of activity.
 
     public static final int MILLISECS_PER_DAY = 86400000;
 
@@ -30,10 +33,12 @@ public class Globals {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
 
-    private Globals() {
-    }
+    private Globals() {}
 
-    // method for getting the singleton class
+    /**
+     * Globals is a singleton class and getInstance returns the instance.
+     * @return singleton instance of Globals
+     */
     public static Globals getInstance() {
         if (instance == null)
             instance = new Globals();
@@ -106,7 +111,10 @@ public class Globals {
         return new Calendar[] { lastMonthStart, lastMonthEnd };
     }
 
-    // method for getting the firebase authentication instance
+    /**
+     * Method for safely acquiring the firebase authentication instance.
+     * @return FirebaseAuth instance on success, null on failure.
+     */
     private FirebaseAuth getAuth() {
         if (firebaseAuth == null)
             firebaseAuth = FirebaseAuth.getInstance();
@@ -114,7 +122,10 @@ public class Globals {
         return firebaseAuth;
     }
 
-    // method for getting the firebase database instance
+    /**
+     * Method for safely acquiring the firebase database instance.
+     * @return FirbaseDatabase instance on success, null on failure.
+     */
     private FirebaseDatabase getDatabase() {
         if (firebaseDatabase == null)
             firebaseDatabase = FirebaseDatabase.getInstance();
@@ -122,10 +133,10 @@ public class Globals {
         return firebaseDatabase;
     }
 
-    // method for checking if a user is logged into firebase
-    // returns -1 if could not connect to firebase
-    // returns 0 if not logged in
-    // returns 1 if user is logged in
+    /**
+     * Method for safely checking if a user is already logged into the firebase authentication instance.
+     * @return 1 if a user is logged in, 0 if a user is not logged in, -1 on failure.
+     */
     public int isLoggedIn() {
         FirebaseAuth auth = getAuth();
         if (auth == null)
@@ -134,10 +145,10 @@ public class Globals {
         return auth.getCurrentUser() == null ? 0 : 1;
     }
 
-    // method for signing a user out of firebase
-    // returns -1 if could not connect to firebase
-    // returns 0 if user was not logged in in the first place
-    // returns 1 if a user was successfully logged out
+    /**
+     * Method for safely signing out of the firebase authentication instance.
+     * @return 1 if the user was logged out, 0 if no user was logged in, -1 on failure.
+     */
     public int signOut() {
         FirebaseAuth auth = getAuth();
         if (auth == null)
@@ -150,11 +161,12 @@ public class Globals {
         return ret;
     }
 
-    // method for logging a user into firebase
-    // consumer is responsible for handling the result of the login attempt
-    // passes -1 if could not connect to firebase
-    // passes 0 if login failed
-    // passes 1 if login succeeded
+    /**
+     * Method for logging a user into the firebase authentication instance.
+     * @param email user's account email
+     * @param password user's account password
+     * @param consumer used for action on finish. Passed 1 on success, 0 on login failure, -1 on firebase failure.
+     */
     public void login(String email, String password, final Consumer<Integer> consumer) {
         FirebaseAuth auth = getAuth();
         if (auth == null || signOut() == -1)
@@ -173,12 +185,14 @@ public class Globals {
         }
     }
 
-    // method for registering an account to the firebase
-    // consumer is responsible for handling the result of the register attempt
-    // passes -1 if could not connect to firebase
-    // passes 0 if register failed
-    // passes 1 if register succeeded
-    public void register(final String email, String password, final Consumer<Integer> consumer) {
+    /**
+     * Method for registering an account to the firebase authentication instance.
+     * @param name user's desired name
+     * @param email user's desired account email
+     * @param password user's desired account password
+     * @param consumer used for action on finish. Passed 1 on success, 0 on register failure, -1 on firebase failure.
+     */
+    public void register(final String name, final String email, String password, final Consumer<Integer> consumer) {
         final FirebaseAuth auth = getAuth();
         final FirebaseDatabase database = getDatabase();
         if (auth == null || database == null || signOut() == -1)
@@ -189,9 +203,10 @@ public class Globals {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         DatabaseReference userRef = database.getReference().child("Users").child(auth.getUid());
+                        userRef.child("Name").setValue(name);
                         userRef.child("Email").setValue(email);
-                        userRef.child("Goal").setValue(0);
-
+                        userRef.child("ActivityGoal").setValue(0);
+                        userRef.child("EnableNotifications").setValue(false);
                         consumer.accept(1);
                     } else {
                         consumer.accept(0);
@@ -201,12 +216,12 @@ public class Globals {
         }
     }
 
-    // method for updating a user's password
-    // consumer is responsible for handling the result of the updation attempt
-    // passes -1 if could not connect to firebase or a user isn't signed in
-    // passes 0 if password updation failed
-    // passes 1 if password updation succeeded
-    // *IMPORTANT* 'updation' is a word despite what other people may say
+    /**
+     * Method for updating a user's account password.
+     * @param oldPass user's old password
+     * @param newPass user's new password
+     * @param consumer used for action on finish. Passed 1 on success, 0 on updation failure, -1 on firebase failure.
+     */
     public void updatePassword(String oldPass, final String newPass, final Consumer<Integer> consumer) {
         FirebaseAuth auth = getAuth();
         if (auth == null)
@@ -242,11 +257,11 @@ public class Globals {
         }
     }
 
-    // method for deleting a user's account
-    // consumer is responsible for handling the result of the deletion attempt
-    // passes -1 if could not connect to firebase or user was not signed in
-    // passes 0 if deletion failed
-    // passes 1 if account was successfully deleted
+    /**
+     * Method for deleting a user's account from the firebase instance.
+     * @param password the user's account password
+     * @param consumer used for action on finish. Passed 1 on success, 0 on deletion failure, -1 on firebase failure.
+     */
     public void deregister(String password, final Consumer<Integer> consumer) {
         FirebaseAuth auth = getAuth();
         final FirebaseDatabase database = getDatabase();
@@ -283,9 +298,12 @@ public class Globals {
         }
     }
 
-    // method for saving a time (currenttimemillis) and associated sedentary status to the user's sedentary data
-    // returns -1 if failed to connect to firebase or no user is logged on
-    // returns 0 if successful
+    /**
+     * Method for saving a data entry [time-isActive] pair to the user's remote sedentary data firebase storage.
+     * @param time in milliseconds
+     * @param isActive
+     * @return 0 on success, -1 on failure.
+     */
     public int saveDataEntry(long time, boolean isActive) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
@@ -296,21 +314,19 @@ public class Globals {
         if (user == null)
             return -1;
 
-        Calendar[] interval = getDayInterval(time);
+        long day = getDayInterval(time)[0].getTimeInMillis();
+        DatabaseReference dataRef = database.getReference("Users/" + user.getUid() + "/SedentaryData/" + day);
+        dataRef.child("" + (time - day)).setValue(isActive ? 1 : 0);
 
-        DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData").child(new Long(interval[0].getTimeInMillis()).toString());
-
-        dataRef.child("Date").setValue(interval[0].getTime().toString());
-        dataRef.child("Data").child(new Long(time).toString()).setValue(isActive ? "true" : "false");
         return 0;
     }
 
-    // method for retrieving an interval of sedentary data
-    // startTime and endTime are in milliseconds since Jan 1st 1970
-    // consumer is responsible for handling the data
-    // passes null if failed to get entries
-    // passes a hashmap<time, isActive> if successful
-    // note* startTime must be on the boundary of a day (e.g. Oct 31st, 12:00 AM)
+    /**
+     * Method for retrieving an interval of data entries from the user's remote sedentary data firebase storage.
+     * @param startTime in milliseconds *must be the start of a day
+     * @param endTime in milliseconds
+     * @param consumer used for action on finish. Passed a hashmap of entries on success, null on failure.
+     */
     public void getDataEntries(final long startTime, final long endTime, final Consumer<HashMap<Long, Boolean>> consumer) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
@@ -324,7 +340,7 @@ public class Globals {
             return;
         }
 
-        DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData");
+        DatabaseReference dataRef = database.getReference("Users/" + user.getUid() + "/SedentaryData");
 
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -332,16 +348,16 @@ public class Globals {
 
                 HashMap<Long, Boolean> entries = new HashMap<>();
 
-                for (long curr = startTime; curr <= endTime; curr += MILLISECS_PER_DAY) {
+                for (DataSnapshot daySnapshot : dataSnapshot.getChildren()) {
 
-                    DataSnapshot daySnapshot = dataSnapshot.child(new Long(curr).toString()).child("Data");
+                    long dayTime = Long.parseLong(daySnapshot.getKey());
 
                     for (DataSnapshot entrySnapshot : daySnapshot.getChildren()) {
-                        long time = Long.parseLong(entrySnapshot.getKey());
-                        boolean isActive = Boolean.parseBoolean((String) entrySnapshot.getValue());
+                        long entryTime = dayTime + Long.parseLong(entrySnapshot.getKey());
+                        boolean isActive = (Long) entrySnapshot.getValue() == 1;
 
-                        if (time >= startTime && time <= endTime)
-                            entries.put(time, isActive);
+                        if (entryTime >= startTime && entryTime <= endTime)
+                            entries.put(entryTime, isActive);
                     }
                 }
 
@@ -355,7 +371,12 @@ public class Globals {
         });
     }
 
-    public int deleteOldData() {
+    /**
+     * Method for deleting data entries from the user's remote sedentary data firebase storage that are older than the given time.
+     * @param time in milliseconds
+     * @return 1 on success, -1 on failure.
+     */
+    public int deleteOldData(final long time) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
         if (auth == null || database == null)
@@ -365,25 +386,14 @@ public class Globals {
         if (user == null)
             return -1;
 
-        final DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("SedentaryData");
+        final DatabaseReference dataRef = database.getReference("Users/" + user.getUid() + "/SedentaryData");
 
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                long deleteBoundary = System.currentTimeMillis() - (32 * 24 * 60 * 60 * 1000L);
-
-                System.out.println("deleting data older than " + deleteBoundary);
-
-                for (DataSnapshot dayData : dataSnapshot.getChildren()) {
-
-                    System.out.println("considering " + Long.parseLong(dayData.getKey()));
-
-                    if (Long.parseLong(dayData.getKey()) < deleteBoundary) {
-                        System.out.println("deleting " + dayData.getKey());
-                        dataRef.child(dayData.getKey()).removeValue();
-                    }
-                }
-
+                for (DataSnapshot daySnapshot : dataSnapshot.getChildren())
+                    if (Long.parseLong(daySnapshot.getKey()) < time)
+                        dataRef.child(dataSnapshot.getKey()).removeValue();
             }
 
 
@@ -394,35 +404,44 @@ public class Globals {
         return 1;
     }
 
-    public void getGoal(final Consumer<Integer> consumer) {
+    /**
+     * Method for retrieving a user's attribute from the user's remote firebase storage.
+     * @param attribute the desired attribute
+     * @param consumer used for action on finish. Passed a castable object (String, Long, etc.) depending on the attributes value, or null on failure.
+     */
+    public void getAttribute(String attribute, final Consumer<Object> consumer) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
         if (auth == null || database == null) {
-            consumer.accept(-1);
+            consumer.accept(null);
             return;
         }
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
-            consumer.accept(-1);
+            consumer.accept(null);
             return;
         }
 
-        final DatabaseReference dataRef = database.getReference().child("Users").child(user.getUid()).child("Goal");
+        DatabaseReference dataRef = database.getReference("Users/" + user.getUid() + "/" + attribute);
 
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                consumer.accept(Integer.parseInt(((Long) dataSnapshot.getValue()).toString()));
+                consumer.accept(dataSnapshot.getValue());
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { consumer.accept(-1); }
+            public void onCancelled(@NonNull DatabaseError databaseError) { consumer.accept(null); }
         });
-
-
     }
 
-    public int setGoal(int i) {
+    /**
+     * Method for setting a user's attribute in the user's remote firebase storage.
+     * @param attribute
+     * @param value
+     * @return 1 on success, -1 on failure.
+     */
+    public <T> int setAttribute(String attribute, T value) {
         FirebaseAuth auth = getAuth();
         FirebaseDatabase database = getDatabase();
         if (auth == null || database == null)
@@ -432,13 +451,10 @@ public class Globals {
         if (user == null)
             return -1;
 
-
-        if (i < 0 || i > 24)
-            return 0;
-
-        database.getReference().child("Users").child(user.getUid()).child("Goal").setValue(i);
+        database.getReference("Users/" + user.getUid() + "/" + attribute).setValue(value);
 
         return 1;
     }
+
 
 }

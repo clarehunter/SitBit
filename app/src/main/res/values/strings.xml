@@ -57,7 +57,6 @@
 
     <!--Settings Account Fragment Strings -->
 
-    <string name="SETTINGS_ACC_email_field_text">Email: example@gatech.edu</string>
     <string name="SETTINGS_ACC_update_password_field_text">Update Password</string>
     <string name="SETTINGS_ACC_delete_account_field_text">Delete Account</string>
 
@@ -88,6 +87,10 @@
     <string name="GOALS_goal_label_text">Activity Goal</string>
     <string name="GOALS_progress_label_text">Goal Progress</string>
     <string name="GOALS_update_button_text">Update</string>
+
+    <!-- Notification Settings Strings -->
+
+    <string name="NOTIF_notifications_switch_text">Enable Notifications:\t\t</string>
 
 
 </resources>

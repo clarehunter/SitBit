@@ -1,6 +1,5 @@
 package com.example.sitbit;
 
-
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -23,13 +22,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HistoryFragment extends Fragment {
 
     public static final int MILLISECS_PER_BAR = 360000;
@@ -43,9 +38,7 @@ public class HistoryFragment extends Fragment {
     private Globals globals;
 
 
-    public HistoryFragment() {
-        // Required empty public constructor
-    }
+    public HistoryFragment() {}
 
 
     @Override
@@ -55,13 +48,13 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         // graphical artifact init
-        graph = (GraphView) view.findViewById(R.id.hist_bar_graph);
-        graphLegend = (TextView) view.findViewById(R.id.histGraphLegend);
-        date = (TextView) view.findViewById(R.id.histGraphTitle);
+        graph = view.findViewById(R.id.hist_bar_graph);
+        graphLegend = view.findViewById(R.id.histGraphLegend);
+        date = view.findViewById(R.id.histGraphTitle);
         graphLegend.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
 
         // calendar init
-        calendar = (CalendarView) view.findViewById(R.id.calendarView);
+        calendar = view.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView cal, int year, int month, int day) {

@@ -23,8 +23,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailField = (EditText) findViewById(R.id.LOGIN_email_field);
-        passField = (EditText) findViewById(R.id.LOGIN_pass_field);
+        emailField = findViewById(R.id.LOGIN_email_field);
+        passField = findViewById(R.id.LOGIN_pass_field);
 
         globals = Globals.getInstance();
 

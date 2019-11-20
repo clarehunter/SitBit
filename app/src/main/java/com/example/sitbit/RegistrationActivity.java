@@ -22,9 +22,9 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        nameField = (EditText) findViewById(R.id.REG_name_field);
-        emailField = (EditText) findViewById(R.id.REG_email_field);
-        passField = (EditText) findViewById(R.id.REG_pass_field);
+        nameField = findViewById(R.id.REG_name_field);
+        emailField = findViewById(R.id.REG_email_field);
+        passField = findViewById(R.id.REG_pass_field);
 
         globals = Globals.getInstance();
 
@@ -47,7 +47,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        globals.register(email, password, new Consumer<Integer>() {
+        globals.register(name, email, password, new Consumer<Integer>() {
             @Override
             public void accept(Integer t) {
                 if (t == 1) {
