@@ -44,10 +44,11 @@ public class ExportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export, container, false);
 
-        radioGroup = view.findViewById(R.id.EXPORT_radio_group_date);
+        //radioGroup = view.findViewById(R.id.EXPORT_radio_group_date);
 
         long currentTime = System.currentTimeMillis();
 
+        /*
         radioLastDay = view.findViewById(R.id.EXPORT_radio_day);
         final Calendar[] lastDay = Globals.getDayInterval(currentTime);
         String lastDayText = String.format("Last Day: [%d/%d, %d/%d]", lastDay[0].get(Calendar.DAY_OF_MONTH), lastDay[0].get(Calendar.MONTH) + 1, lastDay[1].get(Calendar.DAY_OF_MONTH), lastDay[1].get(Calendar.MONTH) + 1);
@@ -63,13 +64,14 @@ public class ExportFragment extends Fragment {
         String lastMonthText = String.format("Last Month: [%d/%d, %d/%d]", lastMonth[0].get(Calendar.DAY_OF_MONTH), lastMonth[0].get(Calendar.MONTH) + 1, lastMonth[1].get(Calendar.DAY_OF_MONTH), lastMonth[1].get(Calendar.MONTH) + 1);
         radioLastMonth.setText(lastMonthText);
 
+         */
         exportButton = view.findViewById(R.id.EXPORT_export_button);
 
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (radioGroup.getCheckedRadioButtonId() != -1) {
+                /*if (radioGroup.getCheckedRadioButtonId() != -1) {
                     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("text/plain");
@@ -82,7 +84,7 @@ public class ExportFragment extends Fragment {
                     }
                 } else {
 
-                }
+                }*/
             }
         });
 
