@@ -42,11 +42,17 @@
     <string name="HOME_W_text">W</string>
     <string name="HOME_F_text">F</string>
 
+    <!-- History Fragment Strings -->
+
+    <string name="HISTORY_sedentary_label_text">Minutes Sedentary:</string>
+    <string name="HISTORY_active_label_text">Minutes Active:</string>
+
     <!--Export Fragment Strings -->
 
-    <string name="EXPORT_date_title">Date:</string>
-
+    <string name="EXPORT_date_title">Choose Export Period:</string>
     <string name="EXPORT_export_button_text">Export</string>
+    <string name="EXPORT_from_text">From:</string>
+    <string name="EXPORT_to_text">To:</string>
 
     <!--Settings Main Fragment Strings -->
 

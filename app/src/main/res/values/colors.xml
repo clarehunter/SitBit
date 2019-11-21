@@ -5,17 +5,22 @@
     <color name="colorAccent">#D81B60</color>
 
     <!--Login Activity Colors-->
-
     <color name="LOGIN_register_field_color">#008577</color>
 
 
     <!--Register Activity Colors-->
-
     <color name="REG_login_field_color">#008577</color>
 
     <!--Home Fragment Colors-->
     <color name="HOME_recording_button_disabled_color">#00574B</color>
     <color name="HOME_recording_button_enabled_color">#800000</color>
+
+    <!--History Fragment Colors-->
+    <color name="HISTORY_active_color">#00574B</color>
+    <color name="HISTORY_sedentary_color">#800000</color>
+
+    <!--Export Fragment Colors-->
+    <color name="EXPORT_button_color">#00574B</color>
   
     <!--Generic Colors-->
     <color name="white">#FFFFFF</color>
