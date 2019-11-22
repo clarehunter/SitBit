@@ -41,11 +41,13 @@
     <string name="HOME_T_text">T</string>
     <string name="HOME_W_text">W</string>
     <string name="HOME_F_text">F</string>
+    <string name="HOME_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!-- History Fragment Strings -->
 
     <string name="HISTORY_sedentary_label_text">Minutes Sedentary:</string>
     <string name="HISTORY_active_label_text">Minutes Active:</string>
+    <string name="HISTORY_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!--Export Fragment Strings -->
 
@@ -53,6 +55,9 @@
     <string name="EXPORT_export_button_text">Export</string>
     <string name="EXPORT_from_text">From:</string>
     <string name="EXPORT_to_text">To:</string>
+    <string name="EXPORT_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
+    <string name="EXPORT_unknown_error">An unknown error occured.</string>
+    <string name="EXPORT_invalid_date_interval">Invalid date interval: The 1st date must precede the 2nd.</string>
 
     <!--Settings Main Fragment Strings -->
 
@@ -63,9 +68,9 @@
 
     <!--Settings Account Fragment Strings -->
 
-    <string name="SETTINGS_ACC_email_field_text">Email: example@gatech.edu</string>
     <string name="SETTINGS_ACC_update_password_field_text">Update Password</string>
     <string name="SETTINGS_ACC_delete_account_field_text">Delete Account</string>
+    <string name="SETTINGS_ACC_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!--Delete Account Fragment Strings -->
 
@@ -94,6 +99,12 @@
     <string name="GOALS_goal_label_text">Activity Goal</string>
     <string name="GOALS_progress_label_text">Goal Progress</string>
     <string name="GOALS_update_button_text">Update</string>
+    <string name="GOALS_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
+
+    <!-- Notification Settings Strings -->
+
+    <string name="NOTIF_notifications_switch_text">Enable Notifications:\t\t</string>
+    <string name="NOTIF_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
 
 </resources>

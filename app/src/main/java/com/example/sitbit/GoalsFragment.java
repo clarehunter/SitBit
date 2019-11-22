@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,7 +24,6 @@ public class GoalsFragment extends Fragment {
     private TextView seekBarValue;
     private ProgressBar progressBar;
     private TextView progressBarValue;
-    private Button updateButton;
 
     private Globals globals;
 
@@ -39,7 +38,6 @@ public class GoalsFragment extends Fragment {
         seekBarValue = view.findViewById(R.id.GOALS_goal_seekbar_value);
         progressBar = view.findViewById(R.id.GOALS_progressbar);
         progressBarValue = view.findViewById(R.id.GOALS_progressbar_value);
-        updateButton = view.findViewById(R.id.GOALS_update_button);
 
         globals = Globals.getInstance();
 
@@ -47,6 +45,9 @@ public class GoalsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 update(i);
+
+                if (b)
+                    globals.setAttribute("ActivityGoal", i);
             }
 
             @Override
@@ -56,21 +57,18 @@ public class GoalsFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        globals.getAttribute("ActivityGoal", new Consumer<Object>() {
             @Override
-            public void onClick(View view) {
-                globals.setGoal(seekBar.getProgress());
-            }
-        });
+            public void accept(Object o) {
 
-        globals.getGoal(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer goal) {
-                if (goal >= 0 && goal <= 24) {
-                    seekBar.setProgress(goal);
-                    update(goal);
+                if (o != null) {
+                    int goal = ((Long) o).intValue();
+                    if (goal >= 0 && goal <= 24) {
+                        seekBar.setProgress(goal);
+                        update(goal);
+                    }
                 } else {
-                    //error
+                    Toast.makeText(getContext(), R.string.GOALS_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -82,22 +80,37 @@ public class GoalsFragment extends Fragment {
     private void update(final int goal) {
         seekBarValue.setText(goal + " Hr(s)");
 
-        Calendar[] interval = Globals.getDayInterval(System.currentTimeMillis());
+        if (goal != 0) {
 
-        globals.getDataEntries(interval[0].getTimeInMillis(), interval[1].getTimeInMillis(), new Consumer<HashMap<Long, Boolean>>() {
-            @Override
-            public void accept(HashMap<Long, Boolean> data) {
+            Calendar[] interval = Globals.getDayInterval(System.currentTimeMillis());
 
-                double secondsActive = 0;
+            globals.getDataEntries(interval[0].getTimeInMillis(), interval[1].getTimeInMillis(), new Consumer<HashMap<Long, Boolean>>() {
+                @Override
+                public void accept(HashMap<Long, Boolean> data) {
 
-                for (Boolean entry : data.values())
-                    if (entry)
-                        secondsActive += HomeFragment.ENTRY_DURATION;
+                    if (data == null) {
+                        Toast.makeText(getContext(), R.string.GOALS_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                progressBar.setProgress((int) (secondsActive / (goal * 3600)));
-                progressBarValue.setText(goal == 0 ? "-" : String.format("%.1f%%", secondsActive / (goal * 36)));
-            }
-        });
+                    int secondsActive = 0;
+
+                    for (Boolean entry : data.values())
+                        if (entry)
+                            secondsActive += Globals.TRANSMISSION_FREQ;
+
+                    int percent = secondsActive / (goal * 36);
+
+                    percent = percent > 100 ? 100 : percent;
+
+                    progressBar.setProgress(percent);
+                    progressBarValue.setText(String.format("%d%%", percent));
+                }
+            });
+        } else {
+            progressBar.setProgress(0);
+            progressBarValue.setText("");
+        }
     }
 
 }

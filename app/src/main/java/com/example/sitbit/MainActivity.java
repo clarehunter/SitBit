@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.util.Consumer;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -46,9 +49,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         globals = Globals.getInstance();
 
-        globals.deleteOldData();
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1);
 
+        globals.deleteOldData(cal.getTimeInMillis());
+
+        globals.getAttribute("EnableNotifications", new Consumer<Object>() {
+            @Override
+            public void accept(Object o) {
+                if (o != null) {
+                    if (((Boolean) o).booleanValue())
+                        globals.registerNotification(MainActivity.this);
+                    else
+                        globals.deregisterNotification(MainActivity.this);
+                }
+            }
+        });
     }
+
+
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {

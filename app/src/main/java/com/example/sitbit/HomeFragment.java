@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.text.Html;
 
 import android.graphics.Color;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,11 +38,10 @@ import com.jjoe64.graphview.series.DataPoint;
 public class HomeFragment extends Fragment implements SensorEventListener {
 
     public static final int RECORDING_DELAY = 50000; // in microseconds; 50000 = 20 Hz
-    public static final int BUFFER_SIZE = 40;
+    public static final int BUFFER_SIZE = Globals.SECONDS_PER_CLASSIFICATION * 1000000 / RECORDING_DELAY;
+
     public static final double THRESHOLD = 1.25;
     public static final int HISTORY_SIZE = 8;
-
-    public static final double ENTRY_DURATION = RECORDING_DELAY * BUFFER_SIZE / 1000000.0;
 
     public static final int MILLISECS_PER_BAR = 360000;
     public static final int N_BARS = Globals.MILLISECS_PER_DAY / MILLISECS_PER_BAR;
@@ -55,8 +55,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private TextView graphLegend2;
     private Button recordButton;
 
-    private ArrayList<double[]> buffer;
-    private int history;
+    private ArrayList<double[]> buffer = new ArrayList<>();
+    private int history = HISTORY_SIZE / 2;
 
     private boolean recording = false;
 
@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         linearAccelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         // graphical artifact init
-        graph = (GraphView) view.findViewById(R.id.bar_graph);
+        graph = view.findViewById(R.id.bar_graph);
         weekGraphs = new ArrayList<>();
         weekGraphs.add((GraphView) view.findViewById(R.id.sun_bar_graph));
         weekGraphs.add((GraphView) view.findViewById(R.id.mon_bar_graph));
@@ -84,20 +84,14 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         weekGraphs.add((GraphView) view.findViewById(R.id.thurs_bar_graph));
         weekGraphs.add((GraphView) view.findViewById(R.id.fri_bar_graph));
         weekGraphs.add((GraphView) view.findViewById(R.id.sat_bar_graph));
-        graphLegend1 = (TextView) view.findViewById(R.id.todayGraphLegend);
-        graphLegend2 = (TextView) view.findViewById(R.id.weekGraphLegend);
-        recordButton = (Button) view.findViewById(R.id.HOME_record_button);
+        graphLegend1 = view.findViewById(R.id.todayGraphLegend);
+        graphLegend2 = view.findViewById(R.id.weekGraphLegend);
+        recordButton = view.findViewById(R.id.HOME_record_button);
 
         graphLegend1.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
         graphLegend2.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
 
         globals = Globals.getInstance();
-
-        // sensor buffer init
-        buffer = new ArrayList<>(BUFFER_SIZE);
-
-        // history init
-        history = HISTORY_SIZE / 2;
 
         createGraph(System.currentTimeMillis(), graph);
         createWeekGraphs();
@@ -108,6 +102,11 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 toggleRecording();
             }
         });
+
+        if (recording) {
+            recordButton.setText(R.string.HOME_recording_button_enabled_text);
+            recordButton.setBackgroundColor(getResources().getColor(R.color.HOME_recording_button_enabled_color));
+        }
 
         return view;
     }
@@ -124,6 +123,11 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         globals.getDataEntries(startTime, endTime, new Consumer<HashMap<Long, Boolean>>() {
             @Override
             public void accept(HashMap<Long, Boolean> data) {
+
+                if (data == null) {
+                    Toast.makeText(getContext(), R.string.HOME_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // sort data from earliest to latest
                 ArrayList<Long> keys = new ArrayList<>(data.keySet());
@@ -211,6 +215,10 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int a) {}
 
+
+    private int nClassifications = 0;
+    private int currentState = 0;
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -237,11 +245,22 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 if (max <= THRESHOLD && history > 0)
                     history--;
 
-                globals.saveDataEntry(System.currentTimeMillis(), history < HISTORY_SIZE / 2 ? false : true);
+                if (history < HISTORY_SIZE / 2)
+                    currentState--;
+                else
+                    currentState++;
 
-                // update graph in real time
-                createGraph(System.currentTimeMillis(), graph);
-                createWeekGraphs();
+                nClassifications++;
+
+                if (nClassifications == Globals.TRANSMISSION_FREQ / Globals.SECONDS_PER_CLASSIFICATION) {
+                    globals.saveDataEntry(System.currentTimeMillis(), currentState > 0);
+                    nClassifications = 0;
+                    currentState = 0;
+
+                    // update graph in real time
+                    createGraph(System.currentTimeMillis(), graph);
+                    createWeekGraphs();
+                }
 
                 buffer.clear();
             }
@@ -279,7 +298,6 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         // create the graphs for the days of the week so far
         long nextDay = weekDayStart;
-        System.out.println(nextDay);
         for (int i = 0; i < weekGraphs.size(); i++) {
             if (i < curDayInt) {
                 createGraph(nextDay, weekGraphs.get(i));

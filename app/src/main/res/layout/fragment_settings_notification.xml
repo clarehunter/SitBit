@@ -11,13 +11,12 @@
         android:layout_height="match_parent">
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/NOTIF_notifications_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="Enable Notifications: "
+            android:text="@string/NOTIF_notifications_switch_text"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

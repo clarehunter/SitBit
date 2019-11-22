@@ -28,9 +28,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="@string/SETTINGS_ACC_email_field_text"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SETTINGS_ACC_name_field" />
+
+        <TextView
+            android:id="@+id/SETTINGS_ACC_name_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

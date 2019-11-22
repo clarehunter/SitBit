@@ -40,7 +40,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/fromDateLabel"
+                    android:id="@+id/EXPORT_fromlabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -52,15 +52,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
-                    android:id="@+id/fromSpinner"
+                    android:id="@+id/EXPORT_fromspinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/fromDateLabel"
-                    app:layout_constraintTop_toTopOf="@+id/fromDateLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/EXPORT_fromlabel"
+                    app:layout_constraintTop_toTopOf="@+id/EXPORT_fromlabel" />
 
                 <TextView
-                    android:id="@+id/toDateLabel"
+                    android:id="@+id/EXPORT_tolabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -68,16 +68,16 @@
                     android:text="@string/EXPORT_to_text"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/fromSpinner"
+                    app:layout_constraintStart_toEndOf="@+id/EXPORT_fromspinner"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
-                    android:id="@+id/toSpinner"
+                    android:id="@+id/EXPORT_tospinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/toDateLabel"
-                    app:layout_constraintTop_toTopOf="@+id/toDateLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/EXPORT_tolabel"
+                    app:layout_constraintTop_toTopOf="@+id/EXPORT_tolabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

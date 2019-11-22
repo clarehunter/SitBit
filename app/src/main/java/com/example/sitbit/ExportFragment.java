@@ -10,9 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -25,16 +26,13 @@ import java.util.HashMap;
 
 public class ExportFragment extends Fragment {
 
-    public static final int DAY_CODE = 47;
-    public static final int WEEK_CODE = 48;
-    public static final int MONTH_CODE = 49;
+    public static final int WRITE_CODE = 0xF;
 
-    private RadioGroup radioGroup;
-    private RadioButton radioLastDay;
-    private RadioButton radioLastWeek;
-    private RadioButton radioLastMonth;
-
+    private Spinner fromSpinner;
+    private Spinner toSpinner;
     private Button exportButton;
+
+    private ArrayList<Calendar> days;
 
     private Globals globals;
 
@@ -44,47 +42,57 @@ public class ExportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export, container, false);
 
-        //radioGroup = view.findViewById(R.id.EXPORT_radio_group_date);
+        fromSpinner = view.findViewById(R.id.EXPORT_fromspinner);
+        toSpinner = view.findViewById(R.id.EXPORT_tospinner);
 
-        long currentTime = System.currentTimeMillis();
+        days = new ArrayList<>();
 
-        /*
-        radioLastDay = view.findViewById(R.id.EXPORT_radio_day);
-        final Calendar[] lastDay = Globals.getDayInterval(currentTime);
-        String lastDayText = String.format("Last Day: [%d/%d, %d/%d]", lastDay[0].get(Calendar.DAY_OF_MONTH), lastDay[0].get(Calendar.MONTH) + 1, lastDay[1].get(Calendar.DAY_OF_MONTH), lastDay[1].get(Calendar.MONTH) + 1);
-        radioLastDay.setText(lastDayText);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.AM_PM, Calendar.AM);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-        radioLastWeek = view.findViewById(R.id.EXPORT_radio_week);
-        final Calendar[] lastWeek = Globals.getWeekInterval(currentTime);
-        String lastWeekText = String.format("Last Week: [%d/%d, %d/%d]", lastWeek[0].get(Calendar.DAY_OF_MONTH), lastWeek[0].get(Calendar.MONTH) + 1, lastWeek[1].get(Calendar.DAY_OF_MONTH), lastWeek[1].get(Calendar.MONTH) + 1);
-        radioLastWeek.setText(lastWeekText);
+        int today = cal.get(Calendar.DAY_OF_MONTH);
 
-        radioLastMonth = view.findViewById(R.id.EXPORT_radio_month);
-        final Calendar[] lastMonth = Globals.getMonthInterval(currentTime);
-        String lastMonthText = String.format("Last Month: [%d/%d, %d/%d]", lastMonth[0].get(Calendar.DAY_OF_MONTH), lastMonth[0].get(Calendar.MONTH) + 1, lastMonth[1].get(Calendar.DAY_OF_MONTH), lastMonth[1].get(Calendar.MONTH) + 1);
-        radioLastMonth.setText(lastMonthText);
+        do {
+            days.add(cal);
+            cal = (Calendar) cal.clone();
+            cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - 1);
+        } while (cal.get(Calendar.DAY_OF_MONTH) != today);
 
-         */
+        ArrayList<String> arrayAdapterList = new ArrayList<>();
+
+        for (Calendar c : days)
+            arrayAdapterList.add((c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH));
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.support_simple_spinner_dropdown_item, arrayAdapterList);
+
+        fromSpinner.setAdapter(arrayAdapter);
+        toSpinner.setAdapter(arrayAdapter);
+
         exportButton = view.findViewById(R.id.EXPORT_export_button);
 
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int fromPos = fromSpinner.getSelectedItemPosition();
+                int toPos = toSpinner.getSelectedItemPosition();
 
-                /*if (radioGroup.getCheckedRadioButtonId() != -1) {
+                if (fromPos < 0 || fromPos > 31 || toPos < 0 || toPos > 31) {
+                    Toast.makeText(getContext(), R.string.EXPORT_unknown_error, Toast.LENGTH_SHORT).show();
+                } else if (toPos > fromPos) {
+                    Toast.makeText(getContext(), R.string.EXPORT_invalid_date_interval, Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_TITLE, "SedentaryData");
 
-                    switch (radioGroup.getCheckedRadioButtonId()) {
-                        case R.id.EXPORT_radio_day: startActivityForResult(intent, DAY_CODE); break;
-                        case R.id.EXPORT_radio_week: startActivityForResult(intent, WEEK_CODE); break;
-                        case R.id.EXPORT_radio_month: startActivityForResult(intent, MONTH_CODE); break;
-                    }
-                } else {
-
-                }*/
+                    startActivityForResult(intent, (WRITE_CODE << 12) | (fromPos << 6) | toPos);
+                }
             }
         });
 
@@ -97,22 +105,24 @@ public class ExportFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, final Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && (requestCode >> 12) == WRITE_CODE) {
 
-            long currentTime = System.currentTimeMillis();
+            int fromPos = (requestCode >> 6) & (0x3F);
+            int toPos = requestCode & (0x3F);
 
-            Calendar[] interval;
+            final Calendar startInterval = days.get(fromPos);
+            final Calendar endInterval = (Calendar) days.get(toPos).clone();
 
-            switch (requestCode) {
-                case DAY_CODE: interval = Globals.getDayInterval(currentTime); break;
-                case WEEK_CODE: interval = Globals.getWeekInterval(currentTime); break;
-                case MONTH_CODE: interval = Globals.getMonthInterval(currentTime); break;
-                default: interval = null;
-            }
+            endInterval.set(Calendar.DAY_OF_MONTH, endInterval.get(Calendar.DAY_OF_MONTH) + 1);
 
-            globals.getDataEntries(interval[0].getTimeInMillis(), interval[1].getTimeInMillis(), new Consumer<HashMap<Long, Boolean>>() {
+            globals.getDataEntries(startInterval.getTimeInMillis(), endInterval.getTimeInMillis(), new Consumer<HashMap<Long, Boolean>>() {
                 @Override
                 public void accept(HashMap<Long, Boolean> data) {
+
+                    if (data == null) {
+                        Toast.makeText(getContext(), R.string.EXPORT_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     try (OutputStream outputStream = getActivity().getContentResolver().openOutputStream(intent.getData());
                          BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
@@ -120,8 +130,26 @@ public class ExportFragment extends Fragment {
                         ArrayList<Long> keys = new ArrayList<>(data.keySet());
                         Collections.sort(keys);
 
+                        Calendar c = Calendar.getInstance();
+                        c.setTimeInMillis(System.currentTimeMillis());
+
+                        writer.write("Exported On," + c.getTime() + "\n");
+                        writer.write("Entries Start," + startInterval.getTime() + "\n");
+                        writer.write("Entries End," + endInterval.getTime() + "\n");
+                        writer.write("Number Of Entries," + keys.size() + "\n");
+
+                        int nActiveEntries = 0;
+
+                        for (Boolean entry : data.values())
+                            if (entry)
+                                nActiveEntries++;
+
+                        writer.write("Number of Active Entries," + nActiveEntries + "\n");
+                        writer.write("Minutes Active," + nActiveEntries + "\n");
+                        writer.write("Number of Sedentary Entries," + (keys.size() - nActiveEntries) + "\n");
+                        writer.write("Minutes Sedentary," + (keys.size() - nActiveEntries) + "\n");
+
                         for (Long key : keys) {
-                            Calendar c = Calendar.getInstance();
                             c.setTimeInMillis(key);
                             writer.write(c.getTime() + "," + (data.get(key) ? "active" : "sedentary") + "\n");
                         }
