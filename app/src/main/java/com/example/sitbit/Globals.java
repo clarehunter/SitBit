@@ -1,5 +1,11 @@
 package com.example.sitbit;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
@@ -22,7 +28,12 @@ import java.util.HashMap;
 
 public class Globals {
 
-    public static final int TRANSMISSION_FREQ = 10; // number of seconds between entry transmissions to firebase
+    public static final String NOTIF_CHANNEL = "SitBit";
+    public static final int NOTIF_REQUEST_CODE = 47;
+    public static final int NOTIF_HOUR = 12;
+    public static final int NOTIF_MIN = 30;
+
+    public static final int TRANSMISSION_FREQ = 60; // number of seconds between entry transmissions to firebase
 
     public static final int SECONDS_PER_CLASSIFICATION = 2; // each classification of "active" or "sedentary" represents SECONDS_PER_CLASSIFICATION seconds of activity.
 
@@ -391,14 +402,17 @@ public class Globals {
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot daySnapshot : dataSnapshot.getChildren())
                     if (Long.parseLong(daySnapshot.getKey()) < time)
-                        dataRef.child(dataSnapshot.getKey()).removeValue();
+                        dataRef.child(daySnapshot.getKey()).setValue(null);
+
             }
 
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
+
         });
 
         return 1;
@@ -455,6 +469,41 @@ public class Globals {
 
         return 1;
     }
+
+
+    public void registerNotification(Context context) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.AM_PM, Calendar.AM);
+        cal.set(Calendar.HOUR_OF_DAY, NOTIF_HOUR);
+        cal.set(Calendar.MINUTE, NOTIF_MIN);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        if (cal.getTimeInMillis() < System.currentTimeMillis())
+            cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 1);
+
+        Intent intent = new Intent(context, NotificationReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIF_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        if (alarmManager != null)
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    public void deregisterNotification(Context context) {
+        Intent intent = new Intent(context, NotificationReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIF_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        if (alarmManager != null)
+            alarmManager.cancel(pendingIntent);
+    }
+
 
 
 }

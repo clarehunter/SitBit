@@ -29,10 +29,10 @@ public class UpdatePasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_password, container, false);
 
-        oldPass1 = (TextView) view.findViewById(R.id.UPPASS_old_password_field1);
-        oldPass2 = (TextView) view.findViewById(R.id.UPPASS_old_password_field2);
-        newPass = (TextView) view.findViewById(R.id.UPPASS_new_password_field);
-        updateButton = (Button) view.findViewById(R.id.UPPASS_update_button);
+        oldPass1 = view.findViewById(R.id.UPPASS_old_password_field1);
+        oldPass2 = view.findViewById(R.id.UPPASS_old_password_field2);
+        newPass = view.findViewById(R.id.UPPASS_new_password_field);
+        updateButton = view.findViewById(R.id.UPPASS_update_button);
 
         globals = Globals.getInstance();
 

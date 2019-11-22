@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.text.Html;
 
 import android.graphics.Color;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -122,6 +123,11 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         globals.getDataEntries(startTime, endTime, new Consumer<HashMap<Long, Boolean>>() {
             @Override
             public void accept(HashMap<Long, Boolean> data) {
+
+                if (data == null) {
+                    Toast.makeText(getContext(), R.string.HOME_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // sort data from earliest to latest
                 ArrayList<Long> keys = new ArrayList<>(data.keySet());
@@ -292,7 +298,6 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         // create the graphs for the days of the week so far
         long nextDay = weekDayStart;
-        System.out.println(nextDay);
         for (int i = 0; i < weekGraphs.size(); i++) {
             if (i < curDayInt) {
                 createGraph(nextDay, weekGraphs.get(i));

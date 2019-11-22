@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -34,6 +35,8 @@ public class HistoryFragment extends Fragment {
     private GraphView graph;
     private TextView graphLegend;
     private TextView date;
+    private TextView sedentaryTime;
+    private TextView activeTime;
 
     private Globals globals;
 
@@ -48,13 +51,15 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         // graphical artifact init
-        graph = view.findViewById(R.id.hist_bar_graph);
-        graphLegend = view.findViewById(R.id.histGraphLegend);
-        date = view.findViewById(R.id.histGraphTitle);
+        graph = view.findViewById(R.id.HIST_bar_graph);
+        graphLegend = view.findViewById(R.id.HIST_graph_legend);
+        date = view.findViewById(R.id.HIST_graph_title);
         graphLegend.setText(Html.fromHtml(getString(R.string.HOME_graph_legend)));
+        sedentaryTime = view.findViewById(R.id.HIST_sedentary_time);
+        activeTime = view.findViewById(R.id.HIST_active_time);
 
         // calendar init
-        calendar = view.findViewById(R.id.calendarView);
+        calendar = view.findViewById(R.id.HIST_calendar_view);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView cal, int year, int month, int day) {
@@ -96,9 +101,23 @@ public class HistoryFragment extends Fragment {
             @Override
             public void accept(HashMap<Long, Boolean> data) {
 
+                if (data == null) {
+                    Toast.makeText(getContext(), R.string.HISTORY_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // sort data from earliest to latest
                 ArrayList<Long> keys = new ArrayList<>(data.keySet());
                 Collections.sort(keys);
+
+                int nActiveEntries = 0;
+
+                for (Boolean entry : data.values())
+                    if (entry)
+                        nActiveEntries++;
+
+                sedentaryTime.setText("" + (keys.size() - nActiveEntries));
+                activeTime.setText("" + nActiveEntries);
 
                 DataPoint[] points = new DataPoint[N_BARS];
 

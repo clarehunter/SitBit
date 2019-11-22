@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SettingsAccountFragment extends Fragment {
 
@@ -34,6 +35,12 @@ public class SettingsAccountFragment extends Fragment {
         globals.getAttribute("Name", new Consumer<Object>() {
             @Override
             public void accept(Object o) {
+
+                if (o == null) {
+                    Toast.makeText(getContext(), R.string.SETTINGS_ACC_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 nameField.setText("Name: " + o);
             }
         });
@@ -41,6 +48,12 @@ public class SettingsAccountFragment extends Fragment {
         globals.getAttribute("Email", new Consumer<Object>() {
             @Override
             public void accept(Object o) {
+
+                if (o == null) {
+                    Toast.makeText(getContext(), R.string.SETTINGS_ACC_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
                 emailField.setText("Email: " + o);
             }
         });

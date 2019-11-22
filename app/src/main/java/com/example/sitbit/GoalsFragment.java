@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -65,12 +66,11 @@ public class GoalsFragment extends Fragment {
                     if (goal >= 0 && goal <= 24) {
                         seekBar.setProgress(goal);
                         update(goal);
-                    } else {
-                        //error
                     }
                 } else {
-                    // error
-                }            }
+                    Toast.makeText(getContext(), R.string.GOALS_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         return view;
@@ -87,6 +87,11 @@ public class GoalsFragment extends Fragment {
             globals.getDataEntries(interval[0].getTimeInMillis(), interval[1].getTimeInMillis(), new Consumer<HashMap<Long, Boolean>>() {
                 @Override
                 public void accept(HashMap<Long, Boolean> data) {
+
+                    if (data == null) {
+                        Toast.makeText(getContext(), R.string.GOALS_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     int secondsActive = 0;
 

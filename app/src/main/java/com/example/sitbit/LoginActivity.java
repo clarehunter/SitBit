@@ -3,13 +3,15 @@ package com.example.sitbit;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Consumer;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         passField = findViewById(R.id.LOGIN_pass_field);
 
         globals = Globals.getInstance();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(Globals.NOTIF_CHANNEL, "Notification", importance);
+            channel.setDescription("A Simple Notification");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         int ret = globals.isLoggedIn();
 

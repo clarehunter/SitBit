@@ -26,7 +26,7 @@
                 android:layout_height="match_parent">
 
                 <CalendarView
-                    android:id="@+id/calendarView"
+                    android:id="@+id/HIST_calendar_view"
                     android:layout_width="393dp"
                     android:layout_height="331dp"
                     android:layout_marginTop="4dp"
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/histGraphTitle"
+                    android:id="@+id/HIST_graph_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -64,74 +64,74 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/histGraphLegend"
+                    android:id="@+id/HIST_graph_legend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/HOME_graph_legend"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/histGraphTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/HIST_graph_title" />
 
                 <TextView
-                    android:id="@+id/histTimeText1"
+                    android:id="@+id/HIST_time_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="70dp"
                     android:text="@string/HOME_12am_text"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/hist_bar_graph" />
+                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
                 <TextView
-                    android:id="@+id/histTimeText2"
+                    android:id="@+id/HIST_time_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
                     android:text="@string/HOME_6am_text"
-                    app:layout_constraintEnd_toStartOf="@+id/histTimeText3"
-                    app:layout_constraintStart_toEndOf="@+id/histTimeText1"
-                    app:layout_constraintTop_toTopOf="@+id/hist_bar_graph" />
+                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text3"
+                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
+                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
                 <TextView
-                    android:id="@+id/histTimeText3"
+                    android:id="@+id/HIST_time_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
                     android:layout_marginBottom="4dp"
                     android:text="@string/HOME_12pm_text"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/histTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/histTimeText1"
-                    app:layout_constraintTop_toTopOf="@+id/hist_bar_graph" />
+                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
+                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
+                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
                 <TextView
-                    android:id="@+id/histTimeText4"
+                    android:id="@+id/HIST_time_text4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
                     android:text="@string/HOME_6pm_text"
-                    app:layout_constraintEnd_toStartOf="@+id/histTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/histTimeText3"
-                    app:layout_constraintTop_toTopOf="@+id/hist_bar_graph" />
+                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
+                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text3"
+                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
                 <TextView
-                    android:id="@+id/histTimeText5"
+                    android:id="@+id/HIST_time_text5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
                     android:layout_marginEnd="6dp"
                     android:text="@string/HOME_12am_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/hist_bar_graph" />
+                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
                 <com.jjoe64.graphview.GraphView
-                    android:id="@+id/hist_bar_graph"
+                    android:id="@+id/HIST_bar_graph"
                     android:layout_width="384dp"
                     android:layout_height="70dp"
                     android:layout_marginTop="21dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/histGraphLegend" />
+                    app:layout_constraintTop_toTopOf="@+id/HIST_graph_legend" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -152,7 +152,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/sedentaryTimeLabel"
+                    android:id="@+id/HIST_sedentary_time_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -164,17 +164,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sedentaryTime"
+                    android:id="@+id/HIST_sedentary_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="TextView"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/sedentaryTimeLabel"
-                    app:layout_constraintTop_toTopOf="@+id/sedentaryTimeLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/HIST_sedentary_time_label"
+                    app:layout_constraintTop_toTopOf="@+id/HIST_sedentary_time_label" />
 
                 <TextView
-                    android:id="@+id/activeTimeLabel"
+                    android:id="@+id/HIST_active_time_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -185,17 +184,16 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sedentaryTimeLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/HIST_sedentary_time_label" />
 
                 <TextView
-                    android:id="@+id/activeTime"
+                    android:id="@+id/HIST_active_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="TextView"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/activeTimeLabel"
-                    app:layout_constraintStart_toEndOf="@+id/activeTimeLabel" />
+                    app:layout_constraintBottom_toBottomOf="@+id/HIST_active_time_label"
+                    app:layout_constraintStart_toEndOf="@+id/HIST_active_time_label" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

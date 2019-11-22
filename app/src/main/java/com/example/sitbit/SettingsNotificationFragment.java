@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class SettingsNotificationFragment extends Fragment {
 
@@ -24,7 +25,7 @@ public class SettingsNotificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_settings_notification, container, false);
+        final View view = inflater.inflate(R.layout.fragment_settings_notification, container, false);
 
 
         notificationSwitch = view.findViewById(R.id.NOTIF_notifications_switch);
@@ -34,16 +35,25 @@ public class SettingsNotificationFragment extends Fragment {
         globals.getAttribute("EnableNotifications", new Consumer<Object>() {
             @Override
             public void accept(Object o) {
-                if (o != null) {
-                    notificationSwitch.setChecked(((Boolean) o).booleanValue());
-                } else {
-                    // error
+
+                if (o == null) {
+                    Toast.makeText(getContext(), R.string.NOTIF_failed_firebase_connection_toast, Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                notificationSwitch.setChecked(((Boolean) o).booleanValue());
+
 
                 notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                         globals.setAttribute("EnableNotifications", b);
+
+                        if (b) {
+                            globals.registerNotification(view.getContext());
+                        } else {
+                            globals.deregisterNotification(view.getContext());
+                        }
                     }
                 });
             }

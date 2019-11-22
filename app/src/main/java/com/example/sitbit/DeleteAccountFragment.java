@@ -10,16 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseUser;
 
 public class DeleteAccountFragment extends Fragment {
 
@@ -36,10 +28,10 @@ public class DeleteAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete_account, container, false);
 
-        passField1 = (TextView) view.findViewById(R.id.DELACC_password_field1);
-        passField2 = (TextView) view.findViewById(R.id.DELACC_password_field2);
+        passField1 = view.findViewById(R.id.DELACC_password_field1);
+        passField2 = view.findViewById(R.id.DELACC_password_field2);
 
-        deleteButton = (Button) view.findViewById((R.id.DELACC_delete_button));
+        deleteButton = view.findViewById((R.id.DELACC_delete_button));
 
         globals = Globals.getInstance();
 
