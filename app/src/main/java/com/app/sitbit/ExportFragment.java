@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 import android.app.Activity;
 import android.content.Intent;

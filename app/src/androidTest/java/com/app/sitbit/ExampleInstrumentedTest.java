@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.sitbit", appContext.getPackageName());
+        assertEquals("com.app.sitbit", appContext.getPackageName());
     }
 }
