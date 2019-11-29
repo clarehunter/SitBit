@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">SitBit</string>
 
+    <!--Drawer Menu Strings-->
+    <string name="DRAWER_home">Home</string>
+    <string name="DRAWER_goals">Goals</string>
+    <string name="DRAWER_history">History</string>
+    <string name="DRAWER_export">Export</string>
+    <string name="DRAWER_settings">Settings</string>
+
     <!--Login Activity Strings-->
 
     <string name="LOGIN_title">SitBit Login</string>
@@ -28,7 +35,6 @@
   
     <string name="HOME_today_graph_title">Today</string>
     <string name="HOME_week_graph_title">This Week</string>
-    <string name="HOME_recording_button_text">Start Recording</string>
     <string name="HOME_12am_text">12 AM</string>
     <string name="HOME_12pm_text">12 PM</string>
     <string name="HOME_6am_text">6 AM</string>
@@ -51,18 +57,16 @@
 
     <!--Export Fragment Strings -->
 
-    <string name="EXPORT_date_title">Choose Export Period:</string>
     <string name="EXPORT_export_button_text">Export</string>
     <string name="EXPORT_from_text">From:</string>
     <string name="EXPORT_to_text">To:</string>
     <string name="EXPORT_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
-    <string name="EXPORT_unknown_error">An unknown error occured.</string>
+    <string name="EXPORT_unknown_error">An unknown error occurred.</string>
     <string name="EXPORT_invalid_date_interval">Invalid date interval: The 1st date must precede the 2nd.</string>
 
     <!--Settings Main Fragment Strings -->
 
     <string name="SETTINGS_MAIN_account_field_text">Account Settings</string>
-    <string name="SETTINGS_MAIN_health_field_text">Health Settings</string>
     <string name="SETTINGS_MAIN_notifications_field_text">Notification Settings</string>
     <string name="SETTINGS_MAIN_logout_field_text">Log Out</string>
 
@@ -98,7 +102,6 @@
 
     <string name="GOALS_goal_label_text">Activity Goal</string>
     <string name="GOALS_progress_label_text">Goal Progress</string>
-    <string name="GOALS_update_button_text">Update</string>
     <string name="GOALS_failed_firebase_connection_toast">Could not connect to Firebase. Try again later.</string>
 
     <!-- Notification Settings Strings -->

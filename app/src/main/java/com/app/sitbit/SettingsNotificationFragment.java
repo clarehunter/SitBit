@@ -41,7 +41,7 @@ public class SettingsNotificationFragment extends Fragment {
                     return;
                 }
 
-                notificationSwitch.setChecked(((Boolean) o).booleanValue());
+                notificationSwitch.setChecked((Boolean) o);
 
 
                 notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

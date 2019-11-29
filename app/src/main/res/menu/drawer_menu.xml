@@ -6,19 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="Home" />
+            android:title="@string/DRAWER_home" />
         <item
             android:id="@+id/nav_goals"
-            android:title="Goals" />
+            android:title="@string/DRAWER_goals" />
         <item
             android:id="@+id/nav_history"
-            android:title="History" />
+            android:title="@string/DRAWER_history" />
         <item
             android:id="@+id/nav_export"
-            android:title="Export" />
+            android:title="@string/DRAWER_export" />
         <item
             android:id="@+id/nav_settings"
-            android:title="Settings" />
+            android:title="@string/DRAWER_settings" />
     </group>
 
 </menu>

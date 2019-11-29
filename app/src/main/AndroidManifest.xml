@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name="com.app.sitbit.RegistrationActivity" />
         <activity android:name="com.app.sitbit.LoginActivity">
             <intent-filter>
@@ -18,8 +19,8 @@
         </activity>
         <activity
             android:name="com.app.sitbit.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <receiver android:name="com.app.sitbit.NotificationReceiver"></receiver>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <receiver android:name="com.app.sitbit.NotificationReceiver" />
 
     </application>
 

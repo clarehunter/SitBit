@@ -76,51 +76,6 @@ public class Globals {
         return new Calendar[] { lastDayStart, lastDayEnd };
     }
 
-    public static Calendar[] getWeekInterval(long time) {
-        Calendar lastWeekStart = Calendar.getInstance();
-        lastWeekStart.setTimeInMillis(time);
-        lastWeekStart.set(Calendar.DAY_OF_MONTH, lastWeekStart.get(Calendar.DAY_OF_MONTH) - 6);
-        lastWeekStart.set(Calendar.AM_PM, Calendar.AM);
-        lastWeekStart.set(Calendar.HOUR, 0);
-        lastWeekStart.set(Calendar.MINUTE, 0);
-        lastWeekStart.set(Calendar.SECOND, 0);
-        lastWeekStart.set(Calendar.MILLISECOND, 0);
-
-        Calendar lastWeekEnd = Calendar.getInstance();
-        lastWeekEnd.setTimeInMillis(time);
-        lastWeekEnd.set(Calendar.DAY_OF_MONTH, lastWeekEnd.get(Calendar.DAY_OF_MONTH) + 1);
-        lastWeekEnd.set(Calendar.AM_PM, Calendar.AM);
-        lastWeekEnd.set(Calendar.HOUR, 0);
-        lastWeekEnd.set(Calendar.MINUTE, 0);
-        lastWeekEnd.set(Calendar.SECOND, 0);
-        lastWeekEnd.set(Calendar.MILLISECOND, 0);
-
-        return new Calendar[] { lastWeekStart, lastWeekEnd };
-    }
-
-    public static Calendar[] getMonthInterval(long time) {
-        Calendar lastMonthStart = Calendar.getInstance();
-        lastMonthStart.setTimeInMillis(time);
-        lastMonthStart.set(Calendar.MONTH, lastMonthStart.get(Calendar.MONTH) - 1);
-        lastMonthStart.set(Calendar.DAY_OF_MONTH, lastMonthStart.get(Calendar.DAY_OF_MONTH) + 1);
-        lastMonthStart.set(Calendar.AM_PM, Calendar.AM);
-        lastMonthStart.set(Calendar.HOUR, 0);
-        lastMonthStart.set(Calendar.MINUTE, 0);
-        lastMonthStart.set(Calendar.SECOND, 0);
-        lastMonthStart.set(Calendar.MILLISECOND, 0);
-
-        Calendar lastMonthEnd = Calendar.getInstance();
-        lastMonthEnd.setTimeInMillis(time);
-        lastMonthEnd.set(Calendar.DAY_OF_MONTH, lastMonthEnd.get(Calendar.DAY_OF_MONTH) + 1);
-        lastMonthEnd.set(Calendar.AM_PM, Calendar.AM);
-        lastMonthEnd.set(Calendar.HOUR, 0);
-        lastMonthEnd.set(Calendar.MINUTE, 0);
-        lastMonthEnd.set(Calendar.SECOND, 0);
-        lastMonthEnd.set(Calendar.MILLISECOND, 0);
-
-        return new Calendar[] { lastMonthStart, lastMonthEnd };
-    }
-
     /**
      * Method for safely acquiring the firebase authentication instance.
      * @return FirebaseAuth instance on success, null on failure.
