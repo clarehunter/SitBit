@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Consumer;

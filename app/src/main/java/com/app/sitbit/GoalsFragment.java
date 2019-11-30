@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class GoalsFragment extends Fragment {
@@ -104,7 +105,7 @@ public class GoalsFragment extends Fragment {
                     percent = percent > 100 ? 100 : percent;
 
                     progressBar.setProgress(percent);
-                    progressBarValue.setText(String.format("%d%%", percent));
+                    progressBarValue.setText(String.format(Locale.getDefault(), "%d%%", percent));
                 }
             });
         } else {

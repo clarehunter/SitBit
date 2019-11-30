@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 import android.content.Context;
 
@@ -294,10 +294,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         int curDayInt = curDay[0].get(Calendar.DAY_OF_WEEK);
 
         Calendar[] weekStart = Globals.getDayInterval(curDayStart - ((curDayInt - 1) * Globals.MILLISECS_PER_DAY));
-        long weekDayStart = weekStart[0].getTimeInMillis();
 
         // create the graphs for the days of the week so far
-        long nextDay = weekDayStart;
+        long nextDay = weekStart[0].getTimeInMillis();
         for (int i = 0; i < weekGraphs.size(); i++) {
             if (i < curDayInt) {
                 createGraph(nextDay, weekGraphs.get(i));

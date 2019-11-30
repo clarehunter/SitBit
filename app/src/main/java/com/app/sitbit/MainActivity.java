@@ -1,4 +1,4 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void accept(Object o) {
                 if (o != null) {
-                    if (((Boolean) o).booleanValue())
+                    if ((Boolean) o)
                         globals.registerNotification(MainActivity.this);
                     else
                         globals.deregisterNotification(MainActivity.this);

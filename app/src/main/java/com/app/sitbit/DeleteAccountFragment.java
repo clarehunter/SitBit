@@ -1,6 +1,7 @@
-package com.example.sitbit;
+package com.app.sitbit;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -52,8 +53,12 @@ public class DeleteAccountFragment extends Fragment {
                         public void accept(Integer t) {
                             if (t == 1) {
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                getActivity().finish();
-                                startActivity(intent);
+                                Activity activity = getActivity();
+
+                                if (activity != null) {
+                                    getActivity().finish();
+                                    startActivity(intent);
+                                }
                             } else if (t == 0) {
                                 Toast.makeText(getActivity(), R.string.DELACC_failed_delete_toast, Toast.LENGTH_SHORT).show();
                             } else if (t == -1) {
