@@ -15,7 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/SETTINGS_MAIN_account_field_text"
             android:textColor="@color/SETTINGS_text_color"
@@ -27,25 +26,33 @@
             android:id="@+id/SETTINGS_MAIN_notification_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/SETTINGS_MAIN_notifications_field_text"
             android:textColor="@color/SETTINGS_text_color"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/SETTINGS_MAIN_account_field"
             app:layout_constraintTop_toBottomOf="@+id/SETTINGS_MAIN_account_field" />
+
+        <TextView
+            android:id="@+id/SETTINGS_MAIN_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Contact: sitbitapp@gmail.com"
+            android:textColor="@color/SETTINGS_text_color"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/SETTINGS_MAIN_notification_field"
+            app:layout_constraintTop_toBottomOf="@+id/SETTINGS_MAIN_notification_field" />
 
         <TextView
             android:id="@+id/SETTINGS_MAIN_logout_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/SETTINGS_MAIN_logout_field_text"
             android:textColor="@color/SETTINGS_text_color"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SETTINGS_MAIN_notification_field" />
+            app:layout_constraintStart_toStartOf="@+id/SETTINGS_MAIN_contact"
+            app:layout_constraintTop_toBottomOf="@+id/SETTINGS_MAIN_contact" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
