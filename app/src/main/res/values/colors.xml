@@ -21,6 +21,9 @@
 
     <!--Export Fragment Colors-->
     <color name="EXPORT_button_color">#00574B</color>
+
+    <!--Settings Colors-->
+    <color name="SETTINGS_text_color">#8a000000</color>
   
     <!--Generic Colors-->
     <color name="white">#FFFFFF</color>

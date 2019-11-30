@@ -6,423 +6,437 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <Button
+                android:id="@+id/HOME_record_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/HOME_recording_button_disabled_color"
+                android:padding="15dp"
+                android:text="@string/HOME_recording_button_disabled_text"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-                <TextView
-                    android:id="@+id/dateGraphTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/HOME_today_graph_title"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/todayGraphLegend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/HOME_graph_legend"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dateGraphTitle" />
+                    <TextView
+                        android:id="@+id/weekTimeText1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintStart_toStartOf="@+id/sun_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-                <TextView
-                    android:id="@+id/todayTimeText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/bar_graph" />
+                    <TextView
+                        android:id="@+id/weekTimeText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/HOME_6am_text"
+                        app:layout_constraintEnd_toStartOf="@+id/weekTimeText3"
+                        app:layout_constraintStart_toEndOf="@+id/weekTimeText1"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-                <TextView
-                    android:id="@+id/todayTimeText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_6am_text"
-                    app:layout_constraintEnd_toStartOf="@+id/todayTimeText3"
-                    app:layout_constraintStart_toEndOf="@+id/todayTimeText1"
-                    app:layout_constraintTop_toTopOf="@+id/bar_graph" />
+                    <TextView
+                        android:id="@+id/weekTimeText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/HOME_12pm_text"
+                        app:layout_constraintEnd_toStartOf="@+id/weekTimeText5"
+                        app:layout_constraintStart_toEndOf="@+id/weekTimeText1"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-                <TextView
-                    android:id="@+id/todayTimeText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/HOME_12pm_text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/todayTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/todayTimeText1"
-                    app:layout_constraintTop_toTopOf="@+id/bar_graph" />
+                    <TextView
+                        android:id="@+id/weekTimeText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/HOME_6pm_text"
+                        app:layout_constraintEnd_toStartOf="@+id/weekTimeText5"
+                        app:layout_constraintStart_toEndOf="@+id/weekTimeText3"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-                <TextView
-                    android:id="@+id/todayTimeText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_6pm_text"
-                    app:layout_constraintEnd_toStartOf="@+id/todayTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/todayTimeText3"
-                    app:layout_constraintTop_toTopOf="@+id/bar_graph" />
+                    <TextView
+                        android:id="@+id/weekTimeText5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="6dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-                <TextView
-                    android:id="@+id/todayTimeText5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginEnd="6dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/bar_graph" />
+                    <TextView
+                        android:id="@+id/weekGraphTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/HOME_week_graph_title"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/bar_graph"
-                    android:layout_width="384dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="21dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/todayGraphLegend" />
+                    <TextView
+                        android:id="@+id/weekGraphLegend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/HOME_graph_legend"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/sunLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_S_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/sun_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/sun_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/sun_bar_graph" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+                    <TextView
+                        android:id="@+id/monLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_M_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/mon_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/mon_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/mon_bar_graph" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
+                        android:id="@+id/tuesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_T_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tues_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/tues_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tues_bar_graph" />
+
+                    <TextView
+                        android:id="@+id/wedLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_W_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/wed_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/wed_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/wed_bar_graph" />
+
+                    <TextView
+                        android:id="@+id/thursLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_T_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/thurs_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/thurs_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/thurs_bar_graph" />
+
+                    <TextView
+                        android:id="@+id/friLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_F_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/fri_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/fri_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/fri_bar_graph" />
+
+                    <TextView
+                        android:id="@+id/satLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/HOME_S_text"
+                        android:textColor="@color/gray"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/sat_bar_graph"
+                        app:layout_constraintEnd_toStartOf="@+id/sat_bar_graph"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/sat_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/sun_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/sun_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/sun_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/mon_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/mon_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/mon_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider3"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/tues_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/tues_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/tues_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/wed_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/wed_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/wed_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider5"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/thurs_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/thurs_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/thurs_bar_graph" />
+
+                    <View
+                        android:id="@+id/divider6"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="@+id/fri_bar_graph"
+                        app:layout_constraintStart_toStartOf="@+id/fri_bar_graph"
+                        app:layout_constraintTop_toBottomOf="@+id/fri_bar_graph" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/sun_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="42dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/weekGraphLegend" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/mon_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/tues_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/wed_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/thurs_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/fri_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/sat_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="6dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/weekTimeText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintStart_toStartOf="@+id/sun_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/weekTimeText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/HOME_6am_text"
-                    app:layout_constraintEnd_toStartOf="@+id/weekTimeText3"
-                    app:layout_constraintStart_toEndOf="@+id/weekTimeText1"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                    <TextView
+                        android:id="@+id/dateGraphTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/HOME_today_graph_title"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/weekTimeText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/HOME_12pm_text"
-                    app:layout_constraintEnd_toStartOf="@+id/weekTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/weekTimeText1"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                    <TextView
+                        android:id="@+id/todayGraphLegend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/HOME_graph_legend"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dateGraphTitle" />
 
-                <TextView
-                    android:id="@+id/weekTimeText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/HOME_6pm_text"
-                    app:layout_constraintEnd_toStartOf="@+id/weekTimeText5"
-                    app:layout_constraintStart_toEndOf="@+id/weekTimeText3"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                    <TextView
+                        android:id="@+id/todayTimeText1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/bar_graph" />
 
-                <TextView
-                    android:id="@+id/weekTimeText5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="6dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                    <TextView
+                        android:id="@+id/todayTimeText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_6am_text"
+                        app:layout_constraintEnd_toStartOf="@+id/todayTimeText3"
+                        app:layout_constraintStart_toEndOf="@+id/todayTimeText1"
+                        app:layout_constraintTop_toTopOf="@+id/bar_graph" />
 
-                <TextView
-                    android:id="@+id/weekGraphTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/HOME_week_graph_title"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/todayTimeText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/HOME_12pm_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/todayTimeText5"
+                        app:layout_constraintStart_toEndOf="@+id/todayTimeText1"
+                        app:layout_constraintTop_toTopOf="@+id/bar_graph" />
 
-                <TextView
-                    android:id="@+id/weekGraphLegend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/HOME_graph_legend"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weekGraphTitle" />
+                    <TextView
+                        android:id="@+id/todayTimeText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_6pm_text"
+                        app:layout_constraintEnd_toStartOf="@+id/todayTimeText5"
+                        app:layout_constraintStart_toEndOf="@+id/todayTimeText3"
+                        app:layout_constraintTop_toTopOf="@+id/bar_graph" />
 
-                <TextView
-                    android:id="@+id/sunLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_S_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/sun_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/sun_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/sun_bar_graph" />
+                    <TextView
+                        android:id="@+id/todayTimeText5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginEnd="6dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/bar_graph" />
 
-                <TextView
-                    android:id="@+id/monLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_M_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/mon_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/mon_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/mon_bar_graph" />
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="21dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/todayGraphLegend" />
 
-                <TextView
-                    android:id="@+id/tuesLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_T_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tues_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/tues_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tues_bar_graph" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/wedLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_W_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/wed_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/wed_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/wed_bar_graph" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/thursLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_T_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/thurs_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/thurs_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/thurs_bar_graph" />
-
-                <TextView
-                    android:id="@+id/friLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_F_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/fri_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/fri_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/fri_bar_graph" />
-
-                <TextView
-                    android:id="@+id/satLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/HOME_S_text"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/sat_bar_graph"
-                    app:layout_constraintEnd_toStartOf="@+id/sat_bar_graph"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/sat_bar_graph" />
-
-                <View
-                    android:id="@+id/divider1"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/sun_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/sun_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/sun_bar_graph" />
-
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/mon_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/mon_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/mon_bar_graph" />
-
-                <View
-                    android:id="@+id/divider3"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/tues_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/tues_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/tues_bar_graph" />
-
-                <View
-                    android:id="@+id/divider4"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/wed_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/wed_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/wed_bar_graph" />
-
-                <View
-                    android:id="@+id/divider5"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/thurs_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/thurs_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/thurs_bar_graph" />
-
-                <View
-                    android:id="@+id/divider6"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="@+id/fri_bar_graph"
-                    app:layout_constraintStart_toStartOf="@+id/fri_bar_graph"
-                    app:layout_constraintTop_toBottomOf="@+id/fri_bar_graph" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/sun_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="42dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/weekGraphLegend" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/mon_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider1" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/tues_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/wed_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider3" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/thurs_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider4" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/fri_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider5" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/sat_bar_graph"
-                    android:layout_width="352dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginBottom="6dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider6" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/HOME_record_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@color/HOME_recording_button_disabled_color"
-            android:padding="15dp"
-            android:text="@string/HOME_recording_button_disabled_text"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -7,196 +7,206 @@
     tools:context=".HistoryFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewCal"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewCal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <CalendarView
-                    android:id="@+id/HIST_calendar_view"
-                    android:layout_width="393dp"
-                    android:layout_height="331dp"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <CalendarView
+                        android:id="@+id/HIST_calendar_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewCal">
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewData"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewCal">
 
-                <TextView
-                    android:id="@+id/HIST_graph_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/HIST_graph_legend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/HOME_graph_legend"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/HIST_graph_title" />
+                    <TextView
+                        android:id="@+id/HIST_graph_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/HIST_time_text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
+                    <TextView
+                        android:id="@+id/HIST_graph_legend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/HOME_graph_legend"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HIST_graph_title" />
 
-                <TextView
-                    android:id="@+id/HIST_time_text2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_6am_text"
-                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text3"
-                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
+                    <TextView
+                        android:id="@+id/HIST_time_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
-                <TextView
-                    android:id="@+id/HIST_time_text3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/HOME_12pm_text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
-                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
+                    <TextView
+                        android:id="@+id/HIST_time_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_6am_text"
+                        app:layout_constraintEnd_toStartOf="@+id/HIST_time_text3"
+                        app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
-                <TextView
-                    android:id="@+id/HIST_time_text4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:text="@string/HOME_6pm_text"
-                    app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
-                    app:layout_constraintStart_toEndOf="@+id/HIST_time_text3"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
+                    <TextView
+                        android:id="@+id/HIST_time_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/HOME_12pm_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
+                        app:layout_constraintStart_toEndOf="@+id/HIST_time_text1"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
-                <TextView
-                    android:id="@+id/HIST_time_text5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginEnd="6dp"
-                    android:text="@string/HOME_12am_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
+                    <TextView
+                        android:id="@+id/HIST_time_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:text="@string/HOME_6pm_text"
+                        app:layout_constraintEnd_toStartOf="@+id/HIST_time_text5"
+                        app:layout_constraintStart_toEndOf="@+id/HIST_time_text3"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/HIST_bar_graph"
-                    android:layout_width="384dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="21dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_graph_legend" />
+                    <TextView
+                        android:id="@+id/HIST_time_text5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginEnd="6dp"
+                        android:text="@string/HOME_12am_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_bar_graph" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/HIST_bar_graph"
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="21dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_graph_legend" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewStats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewData">
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewStats"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewData">
 
-                <TextView
-                    android:id="@+id/HIST_sedentary_time_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/HISTORY_sedentary_label_text"
-                    android:textColor="@color/HISTORY_sedentary_color"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/HIST_sedentary_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/HIST_sedentary_time_label"
-                    app:layout_constraintTop_toTopOf="@+id/HIST_sedentary_time_label" />
+                    <TextView
+                        android:id="@+id/HIST_sedentary_time_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/HISTORY_sedentary_label_text"
+                        android:textColor="@color/HISTORY_sedentary_color"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/HIST_active_time_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/HISTORY_active_label_text"
-                    android:textColor="@color/HISTORY_active_color"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/HIST_sedentary_time_label" />
+                    <TextView
+                        android:id="@+id/HIST_sedentary_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/HIST_sedentary_time_label"
+                        app:layout_constraintTop_toTopOf="@+id/HIST_sedentary_time_label" />
 
-                <TextView
-                    android:id="@+id/HIST_active_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/HIST_active_time_label"
-                    app:layout_constraintStart_toEndOf="@+id/HIST_active_time_label" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/HIST_active_time_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/HISTORY_active_label_text"
+                        android:textColor="@color/HISTORY_active_color"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HIST_sedentary_time_label" />
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/HIST_active_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/HIST_active_time_label"
+                        app:layout_constraintStart_toEndOf="@+id/HIST_active_time_label" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </FrameLayout>
