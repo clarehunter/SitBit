@@ -1,8 +1,8 @@
 Release Notes:
 	Features:
-Added the login screen and Firebase authentication functionalities.
-Added the registration screen and account registration with Firebase functionalities.
-Added the home screen alongside the displaying of daily and weekly activity graphs. Additionally, the home screen allows the user to start or stop the recording of their sedentary habits.
+		Added the login screen and Firebase authentication functionalities.
+		Added the registration screen and account registration with Firebase functionalities.
+		Added the home screen alongside the displaying of daily and weekly activity graphs. Additionally, the home screen allows the user to start or stop the recording of their sedentary habits.
 Added the goals screen and the ability to set a today’s activity goal and see the user’s progress towards that goal.
 Added the history screen and the ability to see their recorded activity history for a chosen day in the past.
 Note: Only a month of data is kept at a time to conserve database space. Any set of data older than a month is automatically deleted.
