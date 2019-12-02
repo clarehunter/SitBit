@@ -17,7 +17,7 @@
 1. Have access to a device with Android 4.4 or above installed.
 2. Your version of Android can be found in the phone’s settings.
 3. Open up a web browser application.
-4. Go to the following web address: “https://play.google.com/store/apps/details?id=com.app.sitbit”
+4. Go to the following web address: https://play.google.com/store/apps/details?id=com.app.sitbit
 5. If the web browser asks to open the page in the Android Play Store, do this.
 6. Click install.
 7. Once the application has finished installing, you may begin using the application.
