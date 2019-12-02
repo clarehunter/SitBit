@@ -1,4 +1,4 @@
-# Release Notes:
+# Release Notes Sit-Bit 1.0.0:
 ## Features:
 - Added the login screen and Firebase authentication functionalities.
 - Added the registration screen and account registration with Firebase functionalities.
@@ -12,7 +12,7 @@ Note: Only a month of data is kept at a time to conserve database space. Any set
 - Added the notification settings screen and the ability to enable or disable app notifications.
 ## Known Bugs:
 - The application and screen must remain active if the user wishes to guarantee frequent accelerometer data retrieval during recording.
--- The hardware and operating system reduce the frequency at which some sensors sample during low power modes (e.g. when the screen is off). It cannot be circumvented.
+The hardware and operating system reduce the frequency at which some sensors sample during low power modes (e.g. when the screen is off). It cannot be circumvented.
 # SitBit Installation Steps:
 1. Have access to a device with Android 4.4 or above installed.
 2. Your version of Android can be found in the phone’s settings.
